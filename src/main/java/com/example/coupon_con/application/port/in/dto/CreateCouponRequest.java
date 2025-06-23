@@ -1,5 +1,9 @@
 package com.example.coupon_con.application.port.in.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 /**
  * packageName    : com.example.coupon_con.application.port.in.dto
  * fileName       : CreateCouponRequest
@@ -11,6 +15,9 @@ package com.example.coupon_con.application.port.in.dto;
  * -----------------------------------------------------------
  * 6/22/25       JAEIK       최초 생성
  */
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class CreateCouponRequest {
     private String couponName;
     private String couponNumber;

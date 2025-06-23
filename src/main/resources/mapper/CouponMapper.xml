@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.coupon_con.infrastructure.adapter.out.persistence.mapper.CouponMapper">
+
+    <insert id="insert" parameterType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity" useGeneratedKeys="true" keyProperty="couponId">
+        INSERT INTO coupon (coupon_name, coupon_number,coupon_created_at, coupon_expired_at, quantity) VALUES (#{couponName}, #{couponNumber}, #{couponCreatedAt}, #{couponExpiredAt}, #{quantity})
+    </insert>
+
+</mapper>

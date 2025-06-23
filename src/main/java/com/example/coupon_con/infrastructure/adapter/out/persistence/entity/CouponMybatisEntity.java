@@ -30,9 +30,9 @@ public class CouponMybatisEntity {
 
     private String couponNumber;
 
-    private Instant couponCreateAt;
+    private Instant couponCreatedAt;
 
-    private Instant couponExpireAt;
+    private Instant couponExpiredAt;
 
     private Integer quantity;
 
