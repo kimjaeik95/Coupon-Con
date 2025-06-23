@@ -43,7 +43,7 @@ public class CreateCouponResponse {
                 .couponId(coupon.getCouponId())
                 .couponName(coupon.getCouponName())
                 .couponNumber(coupon.getCouponNumber())
-                .couponCreateAt(coupon.getCouponCreateAt())
+                .couponCreateAt(coupon.getCouponCreatedAt())
                 .couponExpiredAt(coupon.getCouponExpiredAt())
                 .quantity(coupon.getQuantity())
                 .isDeleted(coupon.getIsDeleted())

@@ -31,7 +31,7 @@ public class Coupon {
 
     private String couponNumber;
 
-    private Instant couponCreateAt;
+    private Instant couponCreatedAt;
 
     private Instant couponExpiredAt;
 
