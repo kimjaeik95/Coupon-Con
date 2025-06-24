@@ -1,10 +1,19 @@
 package com.example.coupon_con.application.service;
 
+import com.example.coupon_con.application.mapper.CouponDtoMapper;
 import com.example.coupon_con.application.port.in.CreateCouponUseCase;
+import com.example.coupon_con.application.port.in.GetAllCouponUseCase;
+import com.example.coupon_con.application.port.in.dto.CouponResponse;
 import com.example.coupon_con.application.port.in.dto.CreateCouponCommand;
 import com.example.coupon_con.application.port.out.CreateCouponPort;
+import com.example.coupon_con.application.port.out.GetAllCouponPort;
+import com.example.coupon_con.domain.Coupon;
+import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * packageName    : com.example.coupon_con.application.service
@@ -19,11 +28,22 @@ import org.springframework.stereotype.Service;
  */
 @RequiredArgsConstructor
 @Service
-public class CouponService implements CreateCouponUseCase {
+public class CouponService implements CreateCouponUseCase, GetAllCouponUseCase {
     private final CreateCouponPort createCouponPort;
+    private final GetAllCouponPort getAllCouponPort;
+    private final CouponDtoMapper couponDtoMapper;
 
     @Override
     public void createCoupon(CreateCouponCommand couponCommand) {
-        createCouponPort.save(couponCommand.toCouponDomain());
+        createCouponPort.save(couponDtoMapper.toCouponDomain(couponCommand));
+    }
+
+    @Override
+    public List<CouponResponse> getAllCoupon() {
+        // Domain → Response DTO 변환만 수행
+        List<Coupon> coupons = getAllCouponPort.findAll();
+        return coupons.stream()
+                .map(couponDtoMapper::toCouponResponseDto)
+                .collect(Collectors.toList());
     }
 }

@@ -1,7 +1,10 @@
 package com.example.coupon_con.infrastructure.adapter.out.persistence.mapper;
 
+import com.example.coupon_con.domain.Coupon;
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * packageName    : com.example.coupon_con.infrastructure.adapter.out.persistence.mapper
@@ -17,4 +20,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CouponMapper {
     void insert(CouponMybatisEntity coupon);
+    List<CouponMybatisEntity> findAll();
 }

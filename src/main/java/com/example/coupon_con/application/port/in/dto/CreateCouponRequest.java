@@ -1,5 +1,6 @@
 package com.example.coupon_con.application.port.in.dto;
 
+import com.example.coupon_con.domain.Coupon;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class CreateCouponRequest {
+    // 외부에 노출되므로 Validation 의 집중
     private String couponName;
     private String couponNumber;
     private Integer quantity;
