@@ -1,6 +1,5 @@
 package com.example.coupon_con.domain;
 
-import com.example.coupon_con.application.port.in.dto.CreateCouponCommand;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

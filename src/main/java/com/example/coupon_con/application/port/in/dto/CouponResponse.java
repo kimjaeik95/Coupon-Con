@@ -2,30 +2,39 @@ package com.example.coupon_con.application.port.in.dto;
 
 import com.example.coupon_con.domain.Coupon;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 /**
  * packageName    : com.example.coupon_con.application.port.in.dto
- * fileName       : CreateCouponRequest
+ * fileName       : CouponResponse
  * author         : JAEIK
- * date           : 6/22/25
+ * date           : 6/24/25
  * description    :
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
- * 6/22/25       JAEIK       최초 생성
+ * 6/24/25       JAEIK       최초 생성
  */
+@Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-public class CreateCouponRequest {
-    // 외부에 노출되므로 Validation 의 집중
+public class CouponResponse {
+    private Long couponId;
+
     private String couponName;
+
     private String couponNumber;
+
+    private Instant couponCreateAt;
+
+    private Instant couponExpiredAt;
+
     private Integer quantity;
 
-    public CreateCouponCommand toCreateCouponCommand() {
-        return new CreateCouponCommand(couponName, couponNumber, quantity);
-    }
+    private Boolean isDeleted;
 }

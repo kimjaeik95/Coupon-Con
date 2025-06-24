@@ -38,15 +38,4 @@ public class CreateCouponResponse {
 
     private Boolean isDeleted;
 
-    public static CreateCouponResponse fromCreateCouponDomain(Coupon coupon) {
-        return CreateCouponResponse.builder()
-                .couponId(coupon.getCouponId())
-                .couponName(coupon.getCouponName())
-                .couponNumber(coupon.getCouponNumber())
-                .couponCreateAt(coupon.getCouponCreatedAt())
-                .couponExpiredAt(coupon.getCouponExpiredAt())
-                .quantity(coupon.getQuantity())
-                .isDeleted(coupon.getIsDeleted())
-                .build();
-    }
 }
