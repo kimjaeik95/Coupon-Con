@@ -11,4 +11,8 @@
         SELECT * FROM coupon
     </select>
 
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM coupon WHERE coupon_Id = #{couponId}
+    </delete>
+
 </mapper>

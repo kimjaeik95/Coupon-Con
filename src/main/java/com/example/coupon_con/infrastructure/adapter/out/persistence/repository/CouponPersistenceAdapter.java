@@ -1,6 +1,7 @@
 package com.example.coupon_con.infrastructure.adapter.out.persistence.repository;
 
 import com.example.coupon_con.application.port.out.CreateCouponPort;
+import com.example.coupon_con.application.port.out.DeleteCouponByIdPort;
 import com.example.coupon_con.application.port.out.GetAllCouponPort;
 import com.example.coupon_con.domain.Coupon;
 import com.example.coupon_con.infrastructure.adapter.out.converter.CouponEntityMapper;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @Component
-public class CouponPersistenceAdapter implements CreateCouponPort, GetAllCouponPort {
+public class CouponPersistenceAdapter implements CreateCouponPort, GetAllCouponPort, DeleteCouponByIdPort {
     private final CouponEntityMapper couponEntityMapper;
     private final CouponMapper couponMapper;
 
@@ -40,5 +41,10 @@ public class CouponPersistenceAdapter implements CreateCouponPort, GetAllCouponP
         return entities.stream()
                 .map(couponEntityMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteById(Long couponId) {
+        couponMapper.deleteById(couponId);
     }
 }

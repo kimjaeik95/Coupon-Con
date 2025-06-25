@@ -1,8 +1,9 @@
 package com.example.coupon_con.infrastructure.adapter.out.persistence.mapper;
 
-import com.example.coupon_con.domain.Coupon;
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,4 +22,5 @@ import java.util.List;
 public interface CouponMapper {
     void insert(CouponMybatisEntity coupon);
     List<CouponMybatisEntity> findAll();
+    void deleteById(@Param("couponId") Long couponId);
 }
