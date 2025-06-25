@@ -1,7 +1,6 @@
 package com.example.coupon_con.application.port.in;
 
 import com.example.coupon_con.application.port.in.dto.CreateCouponCommand;
-import org.springframework.stereotype.Component;
 
 /**
  * packageName    : com.example.coupon_con.application.port.in

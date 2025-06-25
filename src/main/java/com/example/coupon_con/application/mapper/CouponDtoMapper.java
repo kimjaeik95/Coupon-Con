@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 /**
  * packageName    : com.example.coupon_con.application.mapper
@@ -45,5 +44,4 @@ public class CouponDtoMapper {
                 .isDeleted(coupon.getIsDeleted())
                 .build();
     }
-
 }

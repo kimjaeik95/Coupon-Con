@@ -1,7 +1,6 @@
 package com.example.coupon_con.application.port.out;
 
 import com.example.coupon_con.domain.Coupon;
-import org.springframework.stereotype.Component;
 
 /**
  * packageName    : com.example.coupon_con.infrastructure.adapter.out.persistence.repository
