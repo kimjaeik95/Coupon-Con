@@ -15,4 +15,19 @@
         DELETE FROM coupon WHERE coupon_Id = #{couponId}
     </delete>
 
+    <update id="update" parameterType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity">
+        UPDATE coupon
+        SET
+           coupon_name = #{couponName},
+           coupon_number = #{couponNumber},
+           quantity = #{quantity},
+           is_deleted = #{isDeleted}
+        WHERE coupon_Id = #{couponId}
+    </update>
+
+    <select id="findById" parameterType="java.lang.Long" resultType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity">
+        SELECT * FROM coupon WHERE coupon_Id = #{couponId}
+    </select>
+
+
 </mapper>

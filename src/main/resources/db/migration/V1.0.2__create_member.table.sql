@@ -1,0 +1,5 @@
+CREATE TABLE member(
+ member_id  BIGINT      AUTO_INCREMENT PRIMARY KEY COMMENT  '멤버 ID',
+ name       VARCHAR(50) COMMENT '이름',
+ created_at TIMESTAMP   DEFAULT CURRENT_TIMESTAMP COMMENT '생성 시간'
+ );

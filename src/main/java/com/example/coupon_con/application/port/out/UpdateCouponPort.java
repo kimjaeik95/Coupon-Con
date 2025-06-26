@@ -1,4 +1,10 @@
-package com.example.coupon_con.application.port.out;/**
+package com.example.coupon_con.application.port.out;
+
+import com.example.coupon_con.domain.Coupon;
+
+import java.util.Optional;
+
+/**
  * packageName    : com.example.coupon_con.application.port.out
  * fileName       : UpdateCouponPort
  * author         : JAEIK
@@ -8,5 +14,7 @@ package com.example.coupon_con.application.port.out;/**
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 6/25/25       JAEIK       최초 생성
- */public interface UpdateCouponPort {
+ */
+public interface UpdateCouponPort {
+    Coupon update(Coupon coupon);
 }
