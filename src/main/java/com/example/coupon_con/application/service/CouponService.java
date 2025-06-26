@@ -1,20 +1,18 @@
 package com.example.coupon_con.application.service;
 
 import com.example.coupon_con.application.mapper.CouponDtoMapper;
-import com.example.coupon_con.application.port.in.CreateCouponUseCase;
-import com.example.coupon_con.application.port.in.DeleteCouponUseCase;
-import com.example.coupon_con.application.port.in.GetAllCouponUseCase;
+import com.example.coupon_con.application.port.in.*;
 import com.example.coupon_con.application.port.in.dto.CouponResponse;
 import com.example.coupon_con.application.port.in.dto.CreateCouponCommand;
 import com.example.coupon_con.application.port.in.dto.DeleteCouponCommand;
-import com.example.coupon_con.application.port.out.CreateCouponPort;
-import com.example.coupon_con.application.port.out.DeleteCouponByIdPort;
-import com.example.coupon_con.application.port.out.GetAllCouponPort;
+import com.example.coupon_con.application.port.in.dto.UpdateCouponCommand;
+import com.example.coupon_con.application.port.out.*;
 import com.example.coupon_con.domain.Coupon;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -30,10 +28,14 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @Service
-public class CouponService implements CreateCouponUseCase, GetAllCouponUseCase, DeleteCouponUseCase {
+public class CouponService implements
+        CreateCouponUseCase, GetAllCouponUseCase, DeleteCouponUseCase,
+        UpdateCouponUseCase, FindCouponUseCase {
     private final CreateCouponPort createCouponPort;
     private final GetAllCouponPort getAllCouponPort;
     private final DeleteCouponByIdPort deleteCouponByIdPort;
+    private final FindCouponPort findCouponPort;
+    private final UpdateCouponPort updateCouponPort;
     private final CouponDtoMapper couponDtoMapper;
 
     @Override
@@ -52,6 +54,29 @@ public class CouponService implements CreateCouponUseCase, GetAllCouponUseCase, 
 
     @Override
     public void deleteByIdCoupon(DeleteCouponCommand command) {
+        findCouponPort.findById(command.getCouponId())
+                .orElseThrow(() -> new IllegalArgumentException("삭제할 쿠폰이 없습니다."));
         deleteCouponByIdPort.deleteById(command.getCouponId());
+    }
+
+    @Override
+    public Coupon updateCoupon(UpdateCouponCommand command) {
+        Coupon coupon = findCouponPort.findById(command.getCouponId())
+                        .orElseThrow(()-> new IllegalArgumentException("쿠폰을 찾을 수 없습니다."));
+
+        coupon.updateCoupon(
+                command.getCouponName(),
+                command.getCouponNumber(),
+                command.getQuantity(),
+                command.getIsDeleted());
+
+        return updateCouponPort.update(coupon);
+    }
+
+    @Override
+    public Coupon findByCoupon(Long couponId) {
+       return findCouponPort.findById(couponId)
+                .orElseThrow(()-> new IllegalArgumentException("쿠폰을 찾을 수 없습니다."));
+
     }
 }

@@ -20,12 +20,12 @@ import java.time.Instant;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CouponIssue {
+public class MemberCouponIssue {
     private Long couponIssueId;
 
     private Long couponId;
 
-    private String memberId;
+    private Long memberId;
 
     private Instant issuedAt;
 

@@ -38,5 +38,11 @@ public class Coupon {
 
     private Boolean isDeleted;
 
+    public void updateCoupon (String couponName, String couponNumber, Integer quantity, Boolean isDeleted) {
+        this.couponName = couponName;
+        this.couponNumber = couponNumber;
+        this.quantity = quantity;
+        this.isDeleted = isDeleted;
+    }
 }
 
