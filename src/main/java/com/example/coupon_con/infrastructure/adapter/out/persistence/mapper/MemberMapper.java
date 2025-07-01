@@ -1,4 +1,9 @@
-package com.example.coupon_con.infrastructure.adapter.out.persistence.mapper;/**
+package com.example.coupon_con.infrastructure.adapter.out.persistence.mapper;
+
+import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberMybatisEntity;
+import org.apache.ibatis.annotations.Mapper;
+
+/**
  * packageName    : com.example.coupon_con.infrastructure.adapter.out.persistence.mapper
  * fileName       : MemberMapper
  * author         : JAEIK
@@ -8,5 +13,8 @@ package com.example.coupon_con.infrastructure.adapter.out.persistence.mapper;/**
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 6/27/25       JAEIK       최초 생성
- */public interface MemberMapper {
+ */
+@Mapper
+public interface MemberMapper {
+    MemberMybatisEntity findById(Long memberId);
 }

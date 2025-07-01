@@ -1,4 +1,8 @@
-package com.example.coupon_con.infrastructure.adapter.out.converter;/**
+package com.example.coupon_con.infrastructure.adapter.out.converter;
+
+import org.springframework.stereotype.Component;
+
+/**
  * packageName    : com.example.coupon_con.infrastructure.adapter.out.converter
  * fileName       : CouponIssueEntityMapper
  * author         : JAEIK
@@ -8,5 +12,7 @@ package com.example.coupon_con.infrastructure.adapter.out.converter;/**
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 6/28/25       JAEIK       최초 생성
- */public class CouponIssueEntityMapper {
+ */
+@Component
+public class CouponIssueEntityMapper {
 }

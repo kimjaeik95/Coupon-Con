@@ -68,7 +68,6 @@ public class CouponController {
     @GetMapping("/coupon/{couponId}")
     public ResponseEntity<?> findByCoupon(@PathVariable("couponId")Long couponId) {
         Coupon coupon = findCouponUseCase.findByCoupon(couponId);
-        CouponResponse response = couponDtoMapper.toCouponResponseDto(coupon);
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(couponDtoMapper.toCouponResponseDto(coupon));
     }
 }
