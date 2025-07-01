@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.coupon_con.infrastructure.adapter.out.persistence.mapper.MemberCouponIssueMapper">
+    <update id="updateQuantityOnIssue" parameterType="java.lang.Long" >
+        UPDATE coupon
+        SET quantity = quantity - 1
+        WHERE coupon_id = #{couponId}
+          AND quantity > 0
+    </update>
+
+    <insert id="insertMemberCouponIssue" parameterType="map">
+        INSERT INTO member_coupon_issue (coupon_id, member_id) VALUES (#{couponId}, #{memberId})
+    </insert>
+</mapper>

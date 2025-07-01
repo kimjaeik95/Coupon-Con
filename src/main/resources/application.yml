@@ -16,3 +16,14 @@ mybatis:
   mapper-locations: classpath:/mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
+
+management:
+  metrics:
+    web:
+      server:
+        auto-time-requests: true # HTTP 요청 자동 타이밍 활성화
+  endpoints:
+    web:
+      exposure:
+        include: "*"        # 모든 엔드포인트 노출
+        exclude: # 제외할 엔드포인트

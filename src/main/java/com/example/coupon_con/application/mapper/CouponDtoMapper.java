@@ -1,10 +1,8 @@
 package com.example.coupon_con.application.mapper;
 
-import com.example.coupon_con.application.port.in.dto.CouponResponse;
-import com.example.coupon_con.application.port.in.dto.CreateCouponCommand;
-import com.example.coupon_con.application.port.in.dto.UpdateCouponCommand;
-import com.example.coupon_con.application.port.in.dto.UpdateCouponRequest;
+import com.example.coupon_con.application.port.in.dto.*;
 import com.example.coupon_con.domain.Coupon;
+import com.example.coupon_con.domain.Member;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;

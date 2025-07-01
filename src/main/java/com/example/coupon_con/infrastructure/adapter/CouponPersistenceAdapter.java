@@ -1,4 +1,4 @@
-package com.example.coupon_con.infrastructure.adapter.out.persistence.repository;
+package com.example.coupon_con.infrastructure.adapter;
 
 import com.example.coupon_con.application.port.out.*;
 import com.example.coupon_con.domain.Coupon;
