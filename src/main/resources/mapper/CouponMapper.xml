@@ -25,6 +25,21 @@
         WHERE coupon_Id = #{couponId}
     </update>
 
+    <update id ="updateQuantity" parameterType="map">
+        UPDATE coupon
+        SET quantity = #{quantity},
+            version = version + 1
+        WHERE coupon_id = #{couponId}
+            AND version = #{version}
+    </update>
+
+    <update id="updateQuantityOnIssue" parameterType="java.lang.Long" >
+        UPDATE coupon
+        SET quantity = quantity - 1
+        WHERE coupon_id = #{couponId}
+        AND quantity > 0
+    </update>
+
     <select id="findById" parameterType="java.lang.Long" resultType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity">
         SELECT * FROM coupon WHERE coupon_Id = #{couponId}
     </select>

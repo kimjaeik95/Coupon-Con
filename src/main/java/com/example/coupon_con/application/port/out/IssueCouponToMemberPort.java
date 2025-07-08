@@ -1,8 +1,6 @@
 package com.example.coupon_con.application.port.out;
 
-import com.example.coupon_con.domain.Coupon;
-
-import java.util.Optional;
+import com.example.coupon_con.domain.MemberCouponIssue;
 
 /**
  * packageName    : com.example.coupon_con.application.port.out
@@ -16,5 +14,5 @@ import java.util.Optional;
  * 6/28/25       JAEIK       최초 생성
  */
 public interface IssueCouponToMemberPort {
-    Optional<Coupon> minusCouponQuantity(Long memberId, Long couponId);
+    void saveMemberCouponIssue(MemberCouponIssue memberCouponIssue);
 }

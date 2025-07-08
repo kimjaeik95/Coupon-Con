@@ -28,9 +28,16 @@ public class MemberCouponIssueController {
     private final IssueCouponToMemberUseCase issueCouponToMemberUseCase;
     private final CouponDtoMapper couponDtoMapper;
 
+    // DB 에서 수량 직접감소 후 발급
     @PostMapping("/issue")
     public ResponseEntity<?> issueCouponToMember(@RequestParam("memberId") Long memberId, @RequestParam("couponId") Long couponId) {
-        Coupon coupon = issueCouponToMemberUseCase.issueCouponToMember(memberId, couponId);
+        Coupon coupon = issueCouponToMemberUseCase.issueCouponWithAtomicDbUpdate(memberId, couponId);
+        return ResponseEntity.ok().body(couponDtoMapper.toCouponResponseDto(coupon));
+    }
+    // 서비스로직에서 수량 감소 후 발급
+    @PostMapping("/issue/domain")
+    public ResponseEntity<?> issueCouponToMember2(@RequestParam("memberId") Long memberId, @RequestParam("couponId") Long couponId) {
+        Coupon coupon = issueCouponToMemberUseCase.issueCouponWithDomainLogic(memberId, couponId);
         return ResponseEntity.ok().body(couponDtoMapper.toCouponResponseDto(coupon));
     }
 }

@@ -6,6 +6,8 @@ import com.example.coupon_con.infrastructure.adapter.out.converter.CouponEntityM
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity;
 import com.example.coupon_con.infrastructure.adapter.out.persistence.mapper.CouponMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -25,8 +27,10 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class CouponPersistenceAdapter implements
-        CreateCouponPort, GetAllCouponPort, DeleteCouponByIdPort, UpdateCouponPort, FindCouponPort {
+        CreateCouponPort, GetAllCouponPort, DeleteCouponByIdPort,
+        UpdateCouponPort, FindCouponPort, UpdateQuantityCouponPort {
     private final CouponEntityMapper couponEntityMapper;
     private final CouponMapper couponMapper;
 
@@ -44,22 +48,6 @@ public class CouponPersistenceAdapter implements
     }
 
     @Override
-    public void deleteById(Long couponId) {
-        couponMapper.deleteById(couponId);
-    }
-
-    @Override
-    public Coupon update(Coupon coupon) {
-        CouponMybatisEntity entity = couponEntityMapper.mapToMyBatisEntity(coupon);
-         int row = couponMapper.update(entity);
-         if (row == 0) {
-             throw new RuntimeException("쿠폰을 찾을 수 없다.");
-         }
-         CouponMybatisEntity updatedEntity = couponMapper.findById(entity.getCouponId());
-         return couponEntityMapper.mapToDomainEntity(updatedEntity);
-    }
-
-    @Override
     public Optional<Coupon> findById(Long couponId) {
         CouponMybatisEntity couponMybatisEntity = couponMapper.findById(couponId);
         // 변환매핑함수가 null 일경우 매핑함수가 호출되지 않아 혹시 모를 NPE 발생 가능성을 예방한다.
@@ -67,5 +55,42 @@ public class CouponPersistenceAdapter implements
         return Optional.ofNullable(couponMybatisEntity).map(couponEntityMapper::mapToDomainEntity);
 
         //return Optional.ofNullable(couponEntityMapper.mapToDomainEntity(couponMybatisEntity));
+    }
+
+    @Override
+    public void deleteById(Long couponId) {
+        couponMapper.deleteById(couponId);
+    }
+
+    // Mybatis 는 update void or int 반환이라 객체를 반환하고싶으면 중복이지만 조회를 해야한다.
+    @Override
+    public Coupon update(Coupon coupon) {
+        CouponMybatisEntity entity = couponEntityMapper.mapToMyBatisEntity(coupon);
+        couponMapper.update(entity);
+        CouponMybatisEntity updatedEntity = couponMapper.findById(entity.getCouponId());
+        return couponEntityMapper.mapToDomainEntity(updatedEntity);
+    }
+
+    // 도메인에서 수량을 감소 했으니 파라미터를 도메인을 통해 받는다.
+    @Override
+    public void updateQuantity(Coupon coupon) {
+        int update = couponMapper.updateQuantity(coupon.getCouponId(),coupon.getVersion(), coupon.getQuantity());
+        if (update == 0) {
+            throw new OptimisticLockingFailureException("낙관적 락 발생했습니다.");
+        }
+        log.info("version : " + coupon.getVersion());
+        CouponMybatisEntity couponMybatisEntity = couponMapper.findById(coupon.getCouponId());
+        couponEntityMapper.mapToDomainEntity(couponMybatisEntity);
+    }
+
+    // DB 내에서 수량을 감소하니 파라미터를 couponId로  받아도된다.
+    @Override
+    public Optional<Coupon> updateMinusCouponQuantity(Long couponId) {
+        int updateQuantity = couponMapper.updateQuantityOnIssue(couponId);
+        if (updateQuantity == 0) {
+            throw new RuntimeException("쿠폰 수량이 부족 합니다.");
+        }
+        CouponMybatisEntity couponMybatisEntity = couponMapper.findById(couponId);
+        return Optional.ofNullable(couponMybatisEntity).map(couponEntityMapper::mapToDomainEntity);
     }
 }

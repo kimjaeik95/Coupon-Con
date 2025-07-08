@@ -37,12 +37,21 @@ public class Coupon {
     private Integer quantity;
 
     private Boolean isDeleted;
+    private Long version;
 
     public void updateCoupon (String couponName, String couponNumber, Integer quantity, Boolean isDeleted) {
         this.couponName = couponName;
         this.couponNumber = couponNumber;
         this.quantity = quantity;
         this.isDeleted = isDeleted;
+    }
+
+    // 도메인 내 메서드식
+    public void decreaseQuantity() {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("쿠폰 수량이 부족합니다.");
+        }
+        quantity -= 1;
     }
 }
 

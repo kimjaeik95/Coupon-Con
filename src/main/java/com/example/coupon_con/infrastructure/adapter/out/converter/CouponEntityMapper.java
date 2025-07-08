@@ -34,6 +34,7 @@ public class CouponEntityMapper {
                 .couponExpiredAt(couponMybatisEntity.getCouponExpiredAt())
                 .quantity(couponMybatisEntity.getQuantity())
                 .isDeleted(couponMybatisEntity.getIsDeleted())
+                .version(couponMybatisEntity.getVersion())
                 .build();
     }
 
@@ -47,6 +48,7 @@ public class CouponEntityMapper {
                 .couponExpiredAt(coupon.getCouponExpiredAt())
                 .quantity(coupon.getQuantity())
                 .isDeleted(coupon.getIsDeleted())
+                .version(coupon.getVersion())
                 .build();
     }
 }

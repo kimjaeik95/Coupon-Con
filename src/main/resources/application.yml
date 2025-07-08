@@ -11,11 +11,19 @@ spring:
     url: jdbc:mysql://localhost:3307/coupon-con?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
     username: root
     password: 1234
+    hikari:
+      maximum-pool-size: 1000  # 원하는 최대 커넥션 수로 변경
 
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
+
+logging:
+  level:
+    org.apache.ibatis: DEBUG
+    java.sql: DEBUG
+    jdbc: DEBUG
 
 management:
   metrics:

@@ -1,8 +1,7 @@
 package com.example.coupon_con.infrastructure.adapter.out.persistence.mapper;
 
-import com.example.coupon_con.domain.Coupon;
+
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,12 +20,24 @@ import java.util.List;
  */
 @Mapper
 public interface CouponMapper {
+    // 쿠폰 생성
     void insert(CouponMybatisEntity coupon);
+
+    // 쿠폰 전체 찾기
     List<CouponMybatisEntity> findAll();
+
+    // 쿠폰 단건 찾기
+    CouponMybatisEntity findById(@Param("couponId") Long couponId);
+
+    // 쿠폰 단건 삭제
     void deleteById(@Param("couponId") Long couponId);
 
-    // myBatis 업데이트된 데이터 반환 기능 없다. JPA랑 다르다.
-    int update(CouponMybatisEntity couponMybatisEntity);
+    // myBatis 업데이트된 데이트 후 객체 반환하기 없다. void or int 타입
+    void update(CouponMybatisEntity couponMybatisEntity);
 
-    CouponMybatisEntity findById(@Param("couponId") Long couponId);
+    // 쿠폰 수량 업데이트
+    int updateQuantity(@Param("couponId") Long couponId,@Param("version")Long version, @Param("quantity") int quantity);
+
+    // 직접 DB 에서 수량 차감, 제약조건 있는 업데이트
+    int updateQuantityOnIssue(Long couponId);
 }

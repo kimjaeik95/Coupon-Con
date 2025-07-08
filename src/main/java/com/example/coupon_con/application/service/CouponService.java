@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -58,6 +57,7 @@ public class CouponService implements
                 .orElseThrow(() -> new IllegalArgumentException("삭제할 쿠폰이 없습니다."));
         deleteCouponByIdPort.deleteById(command.getCouponId());
     }
+
 
     @Override
     public Coupon updateCoupon(UpdateCouponCommand command) {

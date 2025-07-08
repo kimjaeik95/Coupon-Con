@@ -14,5 +14,8 @@ import com.example.coupon_con.domain.Coupon;
  * 6/28/25       JAEIK       최초 생성
  */
 public interface IssueCouponToMemberUseCase {
-    Coupon issueCouponToMember(Long memberId, Long couponId);
+
+    Coupon issueCouponWithAtomicDbUpdate(Long memberId, Long couponId);
+
+    Coupon issueCouponWithDomainLogic(Long memberId, Long couponId);
 }
