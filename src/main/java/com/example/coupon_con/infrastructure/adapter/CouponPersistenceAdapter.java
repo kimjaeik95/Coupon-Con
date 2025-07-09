@@ -74,11 +74,7 @@ public class CouponPersistenceAdapter implements
     // 도메인에서 수량을 감소 했으니 파라미터를 도메인을 통해 받는다.
     @Override
     public void updateQuantity(Coupon coupon) {
-        int update = couponMapper.updateQuantity(coupon.getCouponId(),coupon.getVersion(), coupon.getQuantity());
-        if (update == 0) {
-            throw new OptimisticLockingFailureException("낙관적 락 발생했습니다.");
-        }
-        log.info("version : " + coupon.getVersion());
+        couponMapper.updateQuantity(coupon.getCouponId(), coupon.getQuantity());
         CouponMybatisEntity couponMybatisEntity = couponMapper.findById(coupon.getCouponId());
         couponEntityMapper.mapToDomainEntity(couponMybatisEntity);
     }

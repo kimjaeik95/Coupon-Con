@@ -37,6 +37,4 @@ public class CouponMybatisEntity {
     private Integer quantity;
 
     private Boolean isDeleted;
-
-    private Long version;
 }

@@ -47,6 +47,7 @@ public class CouponIssueService implements IssueCouponToMemberUseCase {
     @Override
     @Transactional
     public Coupon issueCouponWithDomainLogic(Long memberId, Long couponId) {
+            // 비관적 락 FOR UPDATE 쿼리 실행 위치
             findMemberPort.findById(memberId)
                     .orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없습니다."));
 
@@ -56,11 +57,7 @@ public class CouponIssueService implements IssueCouponToMemberUseCase {
             // 도메인 쿠폰 -1 차감
             coupon.decreaseQuantity();
 
-        try {
             updateQuantityCouponPrt.updateQuantity(coupon);
-        } catch (OptimisticLockingFailureException e) {
-            throw new RuntimeException("쿠폰 발급 중 다른 사용자가 먼저 발급했습니다. 다시 시도해주세요.");
-        }
 
             MemberCouponIssue memberCouponIssue = new MemberCouponIssue(memberId, couponId);
             issueCouponToMemberPort.saveMemberCouponIssue(memberCouponIssue);

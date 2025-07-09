@@ -36,7 +36,7 @@ public interface CouponMapper {
     void update(CouponMybatisEntity couponMybatisEntity);
 
     // 쿠폰 수량 업데이트
-    int updateQuantity(@Param("couponId") Long couponId,@Param("version")Long version, @Param("quantity") int quantity);
+    void updateQuantity(@Param("couponId") Long couponId, @Param("quantity") int quantity);
 
     // 직접 DB 에서 수량 차감, 제약조건 있는 업데이트
     int updateQuantityOnIssue(Long couponId);

@@ -24,6 +24,20 @@ services:
     # 볼륨 설정
     volumes:
       - ./data/coupon-issue-mysql/:/var/lib/mysql
+  mysql-exporter:
+    container_name: mysql-exporter
+    image: prom/mysqld-exporter
+    command:
+      - "--collect.global_status"
+      - "--collect.global_variables"
+      - "--mysqld.username=exporter:1815"
+      - "--mysqld.address=mysql:3306"
+    ports:
+      - "9104:9104"
+    depends_on:
+      - mysql
+
+
   prometheus:
     image: prom/prometheus
     container_name: coupon-prometheus

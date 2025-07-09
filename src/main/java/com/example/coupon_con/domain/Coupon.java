@@ -37,7 +37,6 @@ public class Coupon {
     private Integer quantity;
 
     private Boolean isDeleted;
-    private Long version;
 
     public void updateCoupon (String couponName, String couponNumber, Integer quantity, Boolean isDeleted) {
         this.couponName = couponName;
