@@ -1,4 +1,4 @@
-package com.example.coupon_con.infrastructure.adapter;
+package com.example.coupon_con.infrastructure.adapter.out;
 
 import com.example.coupon_con.application.port.out.IssueCouponToMemberPort;
 import com.example.coupon_con.domain.MemberCouponIssue;
@@ -6,6 +6,7 @@ import com.example.coupon_con.infrastructure.adapter.out.converter.CouponIssueEn
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberCouponIssueMybatisEntity;
 import com.example.coupon_con.infrastructure.adapter.out.persistence.mapper.MemberCouponIssueMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 

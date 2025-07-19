@@ -1,4 +1,4 @@
-package com.example.coupon_con.infrastructure.adapter;
+package com.example.coupon_con.infrastructure.adapter.out;
 
 import com.example.coupon_con.application.port.out.*;
 import com.example.coupon_con.domain.Coupon;
@@ -7,7 +7,6 @@ import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.Coup
 import com.example.coupon_con.infrastructure.adapter.out.persistence.mapper.CouponMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -55,6 +54,12 @@ public class CouponPersistenceAdapter implements
         return Optional.ofNullable(couponMybatisEntity).map(couponEntityMapper::mapToDomainEntity);
 
         //return Optional.ofNullable(couponEntityMapper.mapToDomainEntity(couponMybatisEntity));
+    }
+
+    @Override
+    public Optional<Coupon> findByIdLock(Long couponId) {
+        CouponMybatisEntity couponMybatisEntity = couponMapper.findByIdLock(couponId);
+        return Optional.ofNullable(couponMybatisEntity).map(couponEntityMapper::mapToDomainEntity);
     }
 
     @Override
