@@ -1,6 +1,7 @@
 package com.example.coupon_con.application.port.out;
 
 import com.example.coupon_con.domain.MemberCouponIssue;
+import org.springframework.stereotype.Repository;
 
 /**
  * packageName    : com.example.coupon_con.application.port.out

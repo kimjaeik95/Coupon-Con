@@ -2,6 +2,7 @@ package com.example.coupon_con.infrastructure.adapter.out.persistence.mapper;
 
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberCouponIssueMybatisEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * packageName    : com.example.coupon_con.infrastructure.adapter.out.persistence.mapper

@@ -22,7 +22,7 @@
            coupon_number = #{couponNumber},
            quantity = #{quantity},
            is_deleted = #{isDeleted}
-        WHERE coupon_Id = #{couponId}
+        WHERE coupon_id = #{couponId}
     </update>
 
     <update id ="updateQuantity" parameterType="map">
@@ -31,7 +31,7 @@
         WHERE coupon_id = #{couponId}
     </update>
 
-    <!-->  낙관적 락
+    <!--  낙관적 락
     <update id ="updateQuantity" parameterType="map">
     UPDATE coupon
     SET quantity = #{quantity},
@@ -39,7 +39,8 @@
     WHERE coupon_id = #{couponId}
         AND version = #{version}
     </update>
-    <-->
+    -->
+
     <update id="updateQuantityOnIssue" parameterType="java.lang.Long" >
         UPDATE coupon
         SET quantity = quantity - 1
@@ -48,8 +49,11 @@
     </update>
 
     <select id="findById" parameterType="java.lang.Long" resultType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity">
-        SELECT * FROM coupon WHERE coupon_Id = #{couponId} FOR UPDATE
+        SELECT * FROM coupon WHERE coupon_Id = #{couponId}
     </select>
 
+    <select id="findByIdLock" parameterType="java.lang.Long" resultType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity">
+        SELECT * FROM coupon WHERE coupon_id = #{couponId} FOR UPDATE
+    </select>
 
 </mapper>

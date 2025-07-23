@@ -4,6 +4,7 @@ package com.example.coupon_con.infrastructure.adapter.out.persistence.mapper;
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -28,6 +29,9 @@ public interface CouponMapper {
 
     // 쿠폰 단건 찾기
     CouponMybatisEntity findById(@Param("couponId") Long couponId);
+
+    // 쿠폰 비관적 락
+    CouponMybatisEntity findByIdLock(@Param("couponId") Long couponId);
 
     // 쿠폰 단건 삭제
     void deleteById(@Param("couponId") Long couponId);

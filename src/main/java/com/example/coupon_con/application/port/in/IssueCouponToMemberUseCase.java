@@ -2,6 +2,8 @@ package com.example.coupon_con.application.port.in;
 
 import com.example.coupon_con.domain.Coupon;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 /**
  * packageName    : com.example.coupon_con.application.port.in
  * fileName       : IssueCouponToMemberUseCase
@@ -17,5 +19,9 @@ public interface IssueCouponToMemberUseCase {
 
     Coupon issueCouponWithAtomicDbUpdate(Long memberId, Long couponId);
 
-    Coupon issueCouponWithDomainLogic(Long memberId, Long couponId);
+    Coupon issueCouponNormally(Long memberId, Long couponId);
+
+    Coupon issueCouponWithPessimisticLock(Long memberId, Long couponId);
+
+
 }

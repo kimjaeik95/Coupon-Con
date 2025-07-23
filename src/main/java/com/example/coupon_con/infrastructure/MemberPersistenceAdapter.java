@@ -1,4 +1,4 @@
-package com.example.coupon_con.infrastructure.adapter.out;
+package com.example.coupon_con.infrastructure;
 
 import com.example.coupon_con.application.port.out.FindMemberPort;
 import com.example.coupon_con.domain.Member;

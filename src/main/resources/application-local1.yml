@@ -1,0 +1,14 @@
+spring:
+  config:
+    activate:
+      on-profile: local1
+
+  datasource:
+    url: jdbc:mysql://localhost:3307/coupon-con?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
