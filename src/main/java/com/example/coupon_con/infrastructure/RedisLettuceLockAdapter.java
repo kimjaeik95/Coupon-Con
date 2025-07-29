@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+
 /**
  * packageName    : com.example.coupon_con.infrastructure.adapter.out
  * fileName       : RedisLockAdapter
@@ -20,7 +21,7 @@ import java.time.Duration;
  */
 @Component
 @RequiredArgsConstructor
-public class RedisLockAdapter implements RedisLettuceLockPort {
+public class RedisLettuceLockAdapter implements RedisLettuceLockPort {
 
     private final RedisTemplate<String, String> redisTemplate;
 

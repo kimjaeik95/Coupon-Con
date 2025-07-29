@@ -1,17 +1,13 @@
 package com.example.coupon_con.application.service;
 
+import com.example.coupon_con.application.callback.RedisLockService;
 import com.example.coupon_con.application.port.in.IssueCouponToMemberUseCase;
 import com.example.coupon_con.application.port.out.*;
 import com.example.coupon_con.domain.Coupon;
 import com.example.coupon_con.domain.MemberCouponIssue;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * packageName    : com.example.coupon_con.application.service
@@ -41,7 +37,7 @@ public class CouponIssueService implements IssueCouponToMemberUseCase {
 
         // 발급 전 쿠폰 존재 확인
         Coupon coupon = updateQuantityCouponPort.updateMinusCouponQuantity(couponId)
-                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
 
         // 쿠폰 발급 테이블 Insert
         MemberCouponIssue memberCouponIssue = new MemberCouponIssue(memberId, couponId);
@@ -49,26 +45,7 @@ public class CouponIssueService implements IssueCouponToMemberUseCase {
         return coupon;
     }
 
-    @Override
-    public Coupon issueCouponNormally(Long memberId, Long couponId) {
-        findMemberPort.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없습니다."));
-
-        Coupon coupon = findCouponPort.findById(couponId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
-
-        coupon.decreaseQuantity();
-
-        updateQuantityCouponPort.updateQuantity(coupon);
-
-        MemberCouponIssue couponIssue = new MemberCouponIssue(memberId, couponId);
-
-        issueCouponToMemberPort.saveMemberCouponIssue(couponIssue);
-
-        return coupon;
-    }
-
-    // 비관전 락
+    // 비관적 락
     @Override
     @Transactional
     public Coupon issueCouponWithPessimisticLock(Long memberId, Long couponId) {
@@ -87,6 +64,26 @@ public class CouponIssueService implements IssueCouponToMemberUseCase {
 
         MemberCouponIssue memberCouponIssue = new MemberCouponIssue(memberId, couponId);
         issueCouponToMemberPort.saveMemberCouponIssue(memberCouponIssue);
+
+        return coupon;
+    }
+
+    // Facade 패턴과 Call 패턴을 위한 기본 서비스 로직
+    @Override
+    public Coupon issueCouponNormally(Long memberId, Long couponId) {
+        findMemberPort.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없습니다."));
+
+        Coupon coupon = findCouponPort.findById(couponId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
+
+        coupon.decreaseQuantity();
+
+        updateQuantityCouponPort.updateQuantity(coupon);
+
+        MemberCouponIssue couponIssue = new MemberCouponIssue(memberId, couponId);
+
+        issueCouponToMemberPort.saveMemberCouponIssue(couponIssue);
 
         return coupon;
     }

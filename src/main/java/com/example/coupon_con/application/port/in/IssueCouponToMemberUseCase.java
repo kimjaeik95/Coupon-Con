@@ -22,6 +22,4 @@ public interface IssueCouponToMemberUseCase {
     Coupon issueCouponNormally(Long memberId, Long couponId);
 
     Coupon issueCouponWithPessimisticLock(Long memberId, Long couponId);
-
-
 }
