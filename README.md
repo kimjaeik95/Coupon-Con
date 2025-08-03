@@ -19,7 +19,11 @@
 
 ## 2. 구현 상세
 ### 2-1. 백엔드 아키텍쳐
+![레디스락](https://github.com/user-attachments/assets/6d2fe856-68c2-4aec-822e-5200501f80b9)
+
 ### 2-2 아키텍쳐 패키지 구조
+![핵사곤](https://github.com/user-attachments/assets/4b4730ad-500c-4a4a-9a79-3741cb0d4a95)
+
 - **Hexagonal Architecture 기반 설계**
     - 추후 JPA 도입 가능성을 고려하여, 영속성 계층이 유연하게 교체될 수 있도록 **도메인 중심의 계층 분리 설계(Port/Adapter 구조)** 를 적용하였습니다.
     - 실제 회사마다 다른 영속성 기술 (JPA , MyBatis 등)을 사용하는 현실을 반영해 기술 교체나 유지보수 시의 리스크를 최소화하는 방향으로 설계했습니다.
