@@ -19,4 +19,5 @@ public interface FindCouponPort {
     Optional<Coupon> findById(Long couponId);
 
     Optional<Coupon> findByIdLock(Long couponId);
+    Optional<Coupon> findByCouponNUmber(String couponNumber);
 }

@@ -1,8 +1,8 @@
 package com.example.coupon_con.application.mapper;
 
+import com.example.coupon_con.application.port.in.command.CreateCouponCommand;
 import com.example.coupon_con.application.port.in.dto.*;
 import com.example.coupon_con.domain.Coupon;
-import com.example.coupon_con.domain.Member;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -42,25 +42,6 @@ public class CouponDtoMapper {
                 .couponExpiredAt(coupon.getCouponExpiredAt())
                 .quantity(coupon.getQuantity())
                 .isDeleted(coupon.getIsDeleted())
-                .build();
-    }
-
-    // UpdateCouponCommand -> Domain
-    public Coupon mapUpdateCouponDomain(UpdateCouponCommand updateCouponCommand) {
-        return Coupon.builder()
-                .couponName(updateCouponCommand.getCouponName())
-                .couponNumber(updateCouponCommand.getCouponNumber())
-                .quantity(updateCouponCommand.getQuantity())
-                .isDeleted(updateCouponCommand.getIsDeleted())
-                .build();
-    }
-    // UpdateRequest -> UpdateCouponCommand
-    public UpdateCouponCommand toUpdateCouponCommand(UpdateCouponRequest updateCouponRequest) {
-        return UpdateCouponCommand.builder()
-                .couponName(updateCouponRequest.getCouponName())
-                .couponNumber(updateCouponRequest.getCouponNumber())
-                .quantity(updateCouponRequest.getQuantity())
-                .isDeleted(updateCouponRequest.getIsDeleted())
                 .build();
     }
 }

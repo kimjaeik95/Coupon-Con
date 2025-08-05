@@ -56,4 +56,8 @@
         SELECT * FROM coupon WHERE coupon_id = #{couponId} FOR UPDATE
     </select>
 
+    <select id="findByCouponNumber" resultType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity">
+        SELECT * FROM coupon WHERE coupon_number = #{couponNumber}
+    </select>
+
 </mapper>

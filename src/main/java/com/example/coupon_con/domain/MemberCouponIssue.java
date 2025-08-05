@@ -40,4 +40,16 @@ public class MemberCouponIssue {
         this.couponId = couponId;
         this.issuedAt = Instant.now();
     }
+    // 사용 체크
+    public void checkUsed () {
+        if (Boolean.TRUE.equals(this.used)) {
+            throw new IllegalStateException("이미 사용된 쿠폰입니다.");
+        }
+    }
+
+    // 사용
+    public void updateUsedCoupon () {
+        this.used = true;
+        this.usedAt = Instant.now();
+    }
 }

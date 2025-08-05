@@ -2,12 +2,18 @@ package com.example.coupon_con.application.service;
 
 import com.example.coupon_con.application.callback.RedisLockService;
 import com.example.coupon_con.application.port.in.IssueCouponToMemberUseCase;
+import com.example.coupon_con.application.port.in.UseCouponUseCase;
+import com.example.coupon_con.application.port.in.command.UseCouponCommand;
+import com.example.coupon_con.application.port.in.dto.UseCouponResponse;
 import com.example.coupon_con.application.port.out.*;
 import com.example.coupon_con.domain.Coupon;
 import com.example.coupon_con.domain.MemberCouponIssue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+import java.util.Optional;
 
 /**
  * packageName    : com.example.coupon_con.application.service
@@ -22,11 +28,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class CouponIssueService implements IssueCouponToMemberUseCase {
+public class CouponIssueService implements IssueCouponToMemberUseCase, UseCouponUseCase {
     private final IssueCouponToMemberPort issueCouponToMemberPort;
     private final FindMemberPort findMemberPort;
     private final FindCouponPort findCouponPort;
     private final UpdateQuantityCouponPort updateQuantityCouponPort;
+    private final FindIssueCouponPort findIssueCouponPort;
+    private final UpdateIssueCouponPort updateIssueCouponPort;
 
     // 원자적쿼리
     @Override
@@ -86,5 +94,27 @@ public class CouponIssueService implements IssueCouponToMemberUseCase {
         issueCouponToMemberPort.saveMemberCouponIssue(couponIssue);
 
         return coupon;
+    }
+
+    // 쿠폰 사용
+    // 로그인 기능이 없으므로 인증 객체에서 memberId가 아닌 memberId 직접 파라미터로 받는다.
+    @Override
+    public UseCouponResponse UseCoupon(Long memberId, UseCouponCommand useCouponCommand) {
+        // CouponNumber 쿠폰찾기
+        Coupon coupon = findCouponPort.findByCouponNUmber(useCouponCommand.getCouponNumber())
+                .orElseThrow(() -> new IllegalArgumentException("쿠폰을 찾을 수 없습니다."));
+
+        // 멤버Id, 쿠폰Id 쿠폰 발급 이력 찾기
+        MemberCouponIssue couponIssue = findIssueCouponPort.findIssueCoupon(memberId, coupon.getCouponId())
+                .orElseThrow(() -> new IllegalArgumentException("발급된 쿠폰이 없습니다."));
+
+        // 사용 유무 체크
+        couponIssue.checkUsed();
+
+        // 사용 Used, UsedAt 업데이트
+        couponIssue.updateUsedCoupon();
+        updateIssueCouponPort.updateUsedStatus(couponIssue);
+
+        return UseCouponResponse.fromResponse(coupon.getCouponName(), couponIssue.getUsedAt());
     }
 }

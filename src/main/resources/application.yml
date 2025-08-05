@@ -12,7 +12,7 @@ spring:
     username: root
     password: 1234
     hikari:
-      maximum-pool-size: 1000  # 원하는 최대 커넥션 수로 변경
+      maximum-pool-size: 50  # 원하는 최대 커넥션 수로 변경
   tomcat:
     max-threads: 1000 # 톰캣 스레드 설정
 

@@ -1,0 +1,17 @@
+{
+	"ulid": "01K1X3DBKFRYXR3RAB1S3B422A",
+	"minTime": 1753977601166,
+	"maxTime": 1753984800000,
+	"stats": {
+		"numSamples": 266955,
+		"numSeries": 1870,
+		"numChunks": 3750
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01K1X3DBKFRYXR3RAB1S3B422A"
+		]
+	},
+	"version": 1
+}

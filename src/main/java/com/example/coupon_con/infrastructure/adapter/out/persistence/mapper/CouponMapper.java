@@ -30,6 +30,9 @@ public interface CouponMapper {
     // 쿠폰 단건 찾기
     CouponMybatisEntity findById(@Param("couponId") Long couponId);
 
+    // 쿠폰Number 로 쿠폰 찾기
+    CouponMybatisEntity findByCouponNumber(@Param("couponNumber") String couponNumber);
+
     // 쿠폰 비관적 락
     CouponMybatisEntity findByIdLock(@Param("couponId") Long couponId);
 

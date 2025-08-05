@@ -2,7 +2,6 @@ package com.example.coupon_con.application.port.out;
 
 import com.example.coupon_con.domain.Coupon;
 
-import java.util.Optional;
 
 /**
  * packageName    : com.example.coupon_con.application.port.out

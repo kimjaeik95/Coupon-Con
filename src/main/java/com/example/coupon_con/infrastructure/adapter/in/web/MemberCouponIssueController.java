@@ -1,16 +1,18 @@
 package com.example.coupon_con.infrastructure.adapter.in.web;
 
 import com.example.coupon_con.application.mapper.CouponDtoMapper;
+import com.example.coupon_con.application.mapper.UseCouponMapper;
 import com.example.coupon_con.application.port.in.IssueCouponToMemberUseCase;
+import com.example.coupon_con.application.port.in.UseCouponUseCase;
+import com.example.coupon_con.application.port.in.dto.CouponResponse;
+import com.example.coupon_con.application.port.in.dto.UseCouponRequest;
+import com.example.coupon_con.application.port.in.dto.UseCouponResponse;
 import com.example.coupon_con.application.service.LettuceLockFacade;
 import com.example.coupon_con.application.service.RedissonLockFacade;
 import com.example.coupon_con.domain.Coupon;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * packageName    : com.example.coupon_con.infrastructure.adapter.in.web
@@ -28,9 +30,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberCouponIssueController {
     private final IssueCouponToMemberUseCase issueCouponToMemberUseCase;
+    private final UseCouponUseCase useCouponUseCase;
     private final LettuceLockFacade lettuceLockFacade;
     private final RedissonLockFacade redissonLockFacade;
     private final CouponDtoMapper couponDtoMapper;
+    private final UseCouponMapper useCouponMapper;
 
     // DB 에서 수량 직접감소 후 발급
     @PostMapping("/issue")
@@ -63,5 +67,12 @@ public class MemberCouponIssueController {
     public ResponseEntity<?> issueCouponCallBackRedissonLock(@RequestParam("memberId") Long memberId, @RequestParam("couponId") Long couponId) {
         Coupon coupon = redissonLockFacade.issueCouponWithCallBackRedissonLock(memberId, couponId);
         return ResponseEntity.ok().body(couponDtoMapper.toCouponResponseDto(coupon));
+    }
+
+    // 쿠폰사용
+    @PostMapping("/issue/used")
+    public ResponseEntity<?> usedIssueCoupon(@RequestParam("memberId") Long memberId, @RequestBody UseCouponRequest useCouponRequest) {
+        UseCouponResponse useCouponResponse = useCouponUseCase.UseCoupon(memberId, useCouponMapper.mapToCommand(useCouponRequest));
+        return ResponseEntity.ok().body(useCouponResponse);
     }
 }

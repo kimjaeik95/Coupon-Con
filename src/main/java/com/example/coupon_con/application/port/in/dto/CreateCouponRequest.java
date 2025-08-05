@@ -1,5 +1,6 @@
 package com.example.coupon_con.application.port.in.dto;
 
+import com.example.coupon_con.application.port.in.command.CreateCouponCommand;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

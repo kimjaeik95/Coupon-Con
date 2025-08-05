@@ -1,13 +1,18 @@
 package com.example.coupon_con.infrastructure;
 
+import com.example.coupon_con.application.port.out.FindIssueCouponPort;
 import com.example.coupon_con.application.port.out.IssueCouponToMemberPort;
+import com.example.coupon_con.application.port.out.UpdateIssueCouponPort;
 import com.example.coupon_con.domain.MemberCouponIssue;
 import com.example.coupon_con.infrastructure.adapter.out.converter.CouponIssueEntityMapper;
+import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberCouponIssueMybatisEntity;
 import com.example.coupon_con.infrastructure.adapter.out.persistence.mapper.MemberCouponIssueMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 
 /**
@@ -23,7 +28,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class CouponIssuePersistenceAdapter implements IssueCouponToMemberPort {
+public class CouponIssuePersistenceAdapter implements IssueCouponToMemberPort, FindIssueCouponPort, UpdateIssueCouponPort {
     private final MemberCouponIssueMapper couponIssueMapper;
     private final CouponIssueEntityMapper couponIssueEntityMapper;
 
@@ -37,5 +42,16 @@ public class CouponIssuePersistenceAdapter implements IssueCouponToMemberPort {
         } catch (DataAccessException e) {
             throw new DuplicateKeyException("쿠폰 중복입니다.");
         }
+    }
+
+    @Override
+    public void updateUsedStatus(MemberCouponIssue couponIssue) {
+        couponIssueMapper.updateUsedStatus(couponIssue.getCouponIssueId(), couponIssue.getUsed(), couponIssue.getUsedAt());
+    }
+
+    @Override
+    public Optional<MemberCouponIssue> findIssueCoupon(Long memberId, Long couponId) {
+        MemberCouponIssueMybatisEntity couponIssueMybatisEntity = couponIssueMapper.findByCouponIssue(memberId, couponId);
+        return Optional.ofNullable(couponIssueMybatisEntity).map(couponIssueEntityMapper::mapToCouponIssueDomain);
     }
 }

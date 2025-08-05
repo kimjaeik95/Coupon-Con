@@ -37,12 +37,13 @@ public class RedisLockServiceImpl implements RedisLockService {
         return this.execute(supplier, lockTime, key, lock);
     }
 
-    // callWithLock 전체공개가능한 Api 상세로직은 private로 관리
+    // callWithLock 전체공개가능한 Api 상세로직은 private 관리
     private <T> T execute(final Supplier<T> supplier, RedisLockTime redisLockTime, final String key, final RLock lock) {
         try {
             log.info("lock 획득 시도: {}", key);
             if (lock.tryLock(redisLockTime.getWaitTime(), redisLockTime.getLeaseTime(), redisLockTime.getTimeUnit())) {
                 log.info("lock 획득 성공: {}", key);
+                // 락을 얻게되면 서비스로직 호출 실행
                 return supplier.get();
             }
             // 락 획득실패에대한 예외처리
@@ -77,7 +78,6 @@ public class RedisLockServiceImpl implements RedisLockService {
             this.lock.unlock();
         }
     }
-
 
     private String generateKey(Long lockKey) {
         return REDIS_LOCK_PREFIX + lockKey;

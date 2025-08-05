@@ -1,0 +1,507 @@
+.
+├── HELP.md
+├── README.md
+├── build.gradle
+├── data
+│   └── coupon-issue-mysql
+│       ├── #ib_16384_0.dblwr
+│       ├── #ib_16384_1.dblwr
+│       ├── #innodb_redo
+│       │   ├── #ib_redo27
+│       │   ├── #ib_redo28_tmp
+│       │   ├── #ib_redo29_tmp
+│       │   ├── #ib_redo30_tmp
+│       │   ├── #ib_redo31_tmp
+│       │   ├── #ib_redo32_tmp
+│       │   ├── #ib_redo33_tmp
+│       │   ├── #ib_redo34_tmp
+│       │   ├── #ib_redo35_tmp
+│       │   ├── #ib_redo36_tmp
+│       │   ├── #ib_redo37_tmp
+│       │   ├── #ib_redo38_tmp
+│       │   ├── #ib_redo39_tmp
+│       │   ├── #ib_redo40_tmp
+│       │   ├── #ib_redo41_tmp
+│       │   ├── #ib_redo42_tmp
+│       │   ├── #ib_redo43_tmp
+│       │   ├── #ib_redo44_tmp
+│       │   ├── #ib_redo45_tmp
+│       │   ├── #ib_redo46_tmp
+│       │   ├── #ib_redo47_tmp
+│       │   ├── #ib_redo48_tmp
+│       │   ├── #ib_redo49_tmp
+│       │   ├── #ib_redo50_tmp
+│       │   ├── #ib_redo51_tmp
+│       │   ├── #ib_redo52_tmp
+│       │   ├── #ib_redo53_tmp
+│       │   ├── #ib_redo54_tmp
+│       │   ├── #ib_redo55_tmp
+│       │   ├── #ib_redo56_tmp
+│       │   ├── #ib_redo57_tmp
+│       │   └── #ib_redo58_tmp
+│       ├── #innodb_temp
+│       │   ├── temp_1.ibt
+│       │   ├── temp_10.ibt
+│       │   ├── temp_2.ibt
+│       │   ├── temp_3.ibt
+│       │   ├── temp_4.ibt
+│       │   ├── temp_5.ibt
+│       │   ├── temp_6.ibt
+│       │   ├── temp_7.ibt
+│       │   ├── temp_8.ibt
+│       │   └── temp_9.ibt
+│       ├── auto.cnf
+│       ├── binlog.000007
+│       ├── binlog.000008
+│       ├── binlog.000009
+│       ├── binlog.000010
+│       ├── binlog.000011
+│       ├── binlog.000012
+│       ├── binlog.000013
+│       ├── binlog.000014
+│       ├── binlog.000015
+│       ├── binlog.000016
+│       ├── binlog.000017
+│       ├── binlog.000018
+│       ├── binlog.000019
+│       ├── binlog.000020
+│       ├── binlog.000021
+│       ├── binlog.000022
+│       ├── binlog.000023
+│       ├── binlog.000024
+│       ├── binlog.000025
+│       ├── binlog.000026
+│       ├── binlog.000027
+│       ├── binlog.000028
+│       ├── binlog.000029
+│       ├── binlog.000030
+│       ├── binlog.000031
+│       ├── binlog.000032
+│       ├── binlog.000033
+│       ├── binlog.000034
+│       ├── binlog.000035
+│       ├── binlog.000036
+│       ├── binlog.000037
+│       ├── binlog.000038
+│       ├── binlog.000039
+│       ├── binlog.index
+│       ├── ca-key.pem
+│       ├── ca.pem
+│       ├── client-cert.pem
+│       ├── client-key.pem
+│       ├── coupon@002dcon
+│       │   ├── coupon.ibd
+│       │   ├── flyway_schema_history.ibd
+│       │   ├── member.ibd
+│       │   └── member_coupon_issue.ibd
+│       ├── coupon_con
+│       ├── ib_buffer_pool
+│       ├── ibdata1
+│       ├── ibtmp1
+│       ├── mysql
+│       │   ├── general_log.CSM
+│       │   ├── general_log.CSV
+│       │   ├── general_log_213.sdi
+│       │   ├── slow_log.CSM
+│       │   ├── slow_log.CSV
+│       │   └── slow_log_214.sdi
+│       ├── mysql.ibd
+│       ├── mysql.sock -> /var/run/mysqld/mysqld.sock
+│       ├── performance_schema
+│       │   ├── accounts_145.sdi
+│       │   ├── binary_log_trans_189.sdi
+│       │   ├── cond_instances_82.sdi
+│       │   ├── data_lock_waits_161.sdi
+│       │   ├── data_locks_160.sdi
+│       │   ├── error_log_83.sdi
+│       │   ├── events_errors_su_139.sdi
+│       │   ├── events_errors_su_140.sdi
+│       │   ├── events_errors_su_141.sdi
+│       │   ├── events_errors_su_142.sdi
+│       │   ├── events_errors_su_143.sdi
+│       │   ├── events_stages_cu_111.sdi
+│       │   ├── events_stages_hi_112.sdi
+│       │   ├── events_stages_hi_113.sdi
+│       │   ├── events_stages_su_114.sdi
+│       │   ├── events_stages_su_115.sdi
+│       │   ├── events_stages_su_116.sdi
+│       │   ├── events_stages_su_117.sdi
+│       │   ├── events_stages_su_118.sdi
+│       │   ├── events_statement_119.sdi
+│       │   ├── events_statement_120.sdi
+│       │   ├── events_statement_121.sdi
+│       │   ├── events_statement_122.sdi
+│       │   ├── events_statement_123.sdi
+│       │   ├── events_statement_124.sdi
+│       │   ├── events_statement_125.sdi
+│       │   ├── events_statement_126.sdi
+│       │   ├── events_statement_127.sdi
+│       │   ├── events_statement_128.sdi
+│       │   ├── events_statement_129.sdi
+│       │   ├── events_statement_130.sdi
+│       │   ├── events_transacti_131.sdi
+│       │   ├── events_transacti_132.sdi
+│       │   ├── events_transacti_133.sdi
+│       │   ├── events_transacti_134.sdi
+│       │   ├── events_transacti_135.sdi
+│       │   ├── events_transacti_136.sdi
+│       │   ├── events_transacti_137.sdi
+│       │   ├── events_transacti_138.sdi
+│       │   ├── events_waits_cur_84.sdi
+│       │   ├── events_waits_his_85.sdi
+│       │   ├── events_waits_his_86.sdi
+│       │   ├── events_waits_sum_87.sdi
+│       │   ├── events_waits_sum_88.sdi
+│       │   ├── events_waits_sum_89.sdi
+│       │   ├── events_waits_sum_90.sdi
+│       │   ├── events_waits_sum_91.sdi
+│       │   ├── events_waits_sum_92.sdi
+│       │   ├── file_instances_93.sdi
+│       │   ├── file_summary_by__94.sdi
+│       │   ├── file_summary_by__95.sdi
+│       │   ├── global_status_181.sdi
+│       │   ├── global_variables_184.sdi
+│       │   ├── host_cache_96.sdi
+│       │   ├── hosts_146.sdi
+│       │   ├── keyring_componen_191.sdi
+│       │   ├── keyring_keys_152.sdi
+│       │   ├── log_status_174.sdi
+│       │   ├── memory_summary_b_154.sdi
+│       │   ├── memory_summary_b_155.sdi
+│       │   ├── memory_summary_b_156.sdi
+│       │   ├── memory_summary_b_157.sdi
+│       │   ├── memory_summary_g_153.sdi
+│       │   ├── metadata_locks_159.sdi
+│       │   ├── mutex_instances_97.sdi
+│       │   ├── objects_summary__98.sdi
+│       │   ├── performance_time_99.sdi
+│       │   ├── persisted_variab_187.sdi
+│       │   ├── prepared_stateme_175.sdi
+│       │   ├── processlist_100.sdi
+│       │   ├── replication_appl_165.sdi
+│       │   ├── replication_appl_166.sdi
+│       │   ├── replication_appl_167.sdi
+│       │   ├── replication_appl_168.sdi
+│       │   ├── replication_appl_170.sdi
+│       │   ├── replication_appl_171.sdi
+│       │   ├── replication_asyn_172.sdi
+│       │   ├── replication_asyn_173.sdi
+│       │   ├── replication_conn_162.sdi
+│       │   ├── replication_conn_164.sdi
+│       │   ├── replication_grou_163.sdi
+│       │   ├── replication_grou_169.sdi
+│       │   ├── rwlock_instances_101.sdi
+│       │   ├── session_account__151.sdi
+│       │   ├── session_connect__150.sdi
+│       │   ├── session_status_182.sdi
+│       │   ├── session_variable_185.sdi
+│       │   ├── setup_actors_102.sdi
+│       │   ├── setup_consumers_103.sdi
+│       │   ├── setup_instrument_104.sdi
+│       │   ├── setup_objects_105.sdi
+│       │   ├── setup_threads_106.sdi
+│       │   ├── socket_instances_147.sdi
+│       │   ├── socket_summary_b_148.sdi
+│       │   ├── socket_summary_b_149.sdi
+│       │   ├── status_by_accoun_177.sdi
+│       │   ├── status_by_host_178.sdi
+│       │   ├── status_by_thread_179.sdi
+│       │   ├── status_by_user_180.sdi
+│       │   ├── table_handles_158.sdi
+│       │   ├── table_io_waits_s_107.sdi
+│       │   ├── table_io_waits_s_108.sdi
+│       │   ├── table_lock_waits_109.sdi
+│       │   ├── threads_110.sdi
+│       │   ├── tls_channel_stat_190.sdi
+│       │   ├── user_defined_fun_188.sdi
+│       │   ├── user_variables_b_176.sdi
+│       │   ├── users_144.sdi
+│       │   ├── variables_by_thr_183.sdi
+│       │   └── variables_info_186.sdi
+│       ├── private_key.pem
+│       ├── public_key.pem
+│       ├── server-cert.pem
+│       ├── server-key.pem
+│       ├── sys
+│       │   └── sys_config.ibd
+│       ├── undo_001
+│       └── undo_002
+├── docker-compose.yml
+├── full-log.log
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+├── grafana
+│   ├── csv
+│   ├── grafana.db
+│   ├── pdf
+│   ├── plugins
+│   │   ├── grafana-exploretraces-app
+│   │   │   ├── 142.js
+│   │   │   ├── 142.js.map
+│   │   │   ├── 327.js
+│   │   │   ├── 327.js.map
+│   │   │   ├── 397.js
+│   │   │   ├── 397.js.map
+│   │   │   ├── 448.js
+│   │   │   ├── 448.js.LICENSE.txt
+│   │   │   ├── 448.js.map
+│   │   │   ├── 67.js
+│   │   │   ├── 67.js.map
+│   │   │   ├── 712.js
+│   │   │   ├── 712.js.map
+│   │   │   ├── 767.js
+│   │   │   ├── 767.js.map
+│   │   │   ├── 927.js
+│   │   │   ├── 927.js.map
+│   │   │   ├── CHANGELOG.md
+│   │   │   ├── LICENSE
+│   │   │   ├── MANIFEST.txt
+│   │   │   ├── README.md
+│   │   │   ├── components
+│   │   │   │   └── states
+│   │   │   ├── img
+│   │   │   │   ├── 1382cadfeb81ccdaa67d.svg
+│   │   │   │   ├── 944c737f589d02ecf603.svg
+│   │   │   │   ├── e79edcfbe2068fae2364.svg
+│   │   │   │   ├── errors-metric-flow.png
+│   │   │   │   ├── errors-root-cause.png
+│   │   │   │   ├── histogram-breakdown.png
+│   │   │   │   └── logo.svg
+│   │   │   ├── module.js
+│   │   │   ├── module.js.map
+│   │   │   ├── plugin.json
+│   │   │   └── utils
+│   │   │       └── trace-merge
+│   │   ├── grafana-lokiexplore-app
+│   │   │   ├── 1759fd27b2c9f73dea05.wasm
+│   │   │   ├── 272.js
+│   │   │   ├── 272.js.LICENSE.txt
+│   │   │   ├── 272.js.map
+│   │   │   ├── 328.js
+│   │   │   ├── 328.js.map
+│   │   │   ├── 3d96a93cfcb32df74eef.svg
+│   │   │   ├── 470.js
+│   │   │   ├── 470.js.LICENSE.txt
+│   │   │   ├── 470.js.map
+│   │   │   ├── 546.js
+│   │   │   ├── 546.js.map
+│   │   │   ├── 649058283f564041551d.wasm
+│   │   │   ├── 677.js
+│   │   │   ├── 677.js.map
+│   │   │   ├── 767.js
+│   │   │   ├── 767.js.map
+│   │   │   ├── 82.js
+│   │   │   ├── 82.js.map
+│   │   │   ├── 826.js
+│   │   │   ├── 826.js.map
+│   │   │   ├── 854.js
+│   │   │   ├── 854.js.map
+│   │   │   ├── 919.js
+│   │   │   ├── 919.js.map
+│   │   │   ├── 944.js
+│   │   │   ├── 944.js.map
+│   │   │   ├── CHANGELOG.md
+│   │   │   ├── LICENSE
+│   │   │   ├── MANIFEST.txt
+│   │   │   ├── README.md
+│   │   │   ├── img
+│   │   │   │   ├── drilldown-features.png
+│   │   │   │   ├── explore-logs-features.jpeg
+│   │   │   │   ├── fields.png
+│   │   │   │   ├── grot_err.svg
+│   │   │   │   ├── grot_err_light.svg
+│   │   │   │   ├── grot_loki.svg
+│   │   │   │   ├── logo.svg
+│   │   │   │   ├── patterns.png
+│   │   │   │   ├── service_logs.jpg
+│   │   │   │   └── table.png
+│   │   │   ├── module.js
+│   │   │   ├── module.js.map
+│   │   │   └── plugin.json
+│   │   ├── grafana-metricsdrilldown-app
+│   │   │   ├── 138.js
+│   │   │   ├── 138.js.LICENSE.txt
+│   │   │   ├── 138.js.map
+│   │   │   ├── 351.js
+│   │   │   ├── 351.js.map
+│   │   │   ├── 452.js
+│   │   │   ├── 452.js.map
+│   │   │   ├── 5e493d758066ba82f810.wasm
+│   │   │   ├── 619.js
+│   │   │   ├── 619.js.map
+│   │   │   ├── 767.js
+│   │   │   ├── 767.js.map
+│   │   │   ├── 78.js
+│   │   │   ├── 78.js.map
+│   │   │   ├── 792.js
+│   │   │   ├── 792.js.map
+│   │   │   ├── 836.js
+│   │   │   ├── 836.js.map
+│   │   │   ├── 944.js
+│   │   │   ├── 944.js.map
+│   │   │   ├── CHANGELOG.md
+│   │   │   ├── LICENSE
+│   │   │   ├── MANIFEST.txt
+│   │   │   ├── README.md
+│   │   │   ├── ac01ecbc64128d2f3e68.svg
+│   │   │   ├── img
+│   │   │   │   ├── breakdown.png
+│   │   │   │   ├── logo.svg
+│   │   │   │   └── metrics-drilldown.png
+│   │   │   ├── module.js
+│   │   │   ├── module.js.map
+│   │   │   └── plugin.json
+│   │   └── grafana-pyroscope-app
+│   │       ├── 303.js
+│   │       ├── 303.js.map
+│   │       ├── 944c737f589d02ecf603.svg
+│   │       ├── 948.js
+│   │       ├── 948.js.LICENSE.txt
+│   │       ├── 948.js.map
+│   │       ├── CHANGELOG.md
+│   │       ├── LICENSE
+│   │       ├── MANIFEST.txt
+│   │       ├── README.md
+│   │       ├── e6c722427cfa8715e19d.svg
+│   │       ├── e79edcfbe2068fae2364.svg
+│   │       ├── img
+│   │       │   ├── 58f0b0e1cfa063e4b662.png
+│   │       │   ├── 61b4cf746a6f58780f27.png
+│   │       │   ├── 8cdf4d2e2df8326311ab.gif
+│   │       │   ├── 9c9cdd5175734d579007.png
+│   │       │   ├── bafee50693eb02088442.png
+│   │       │   ├── decrease-latency.png
+│   │       │   ├── diff-view-how-to.gif
+│   │       │   ├── hero-image.png
+│   │       │   ├── logo.svg
+│   │       │   ├── reduce-costs.png
+│   │       │   └── resolve-incidents.png
+│   │       ├── module.js
+│   │       ├── module.js.map
+│   │       ├── pages
+│   │       │   └── ProfilesExplorerView
+│   │       ├── plugin.json
+│   │       └── shared
+│   │           └── infrastructure
+│   └── png
+├── out
+│   └── production
+│       ├── classes
+│       │   └── com
+│       │       └── example
+│       └── resources
+│           ├── application-local1.yml
+│           ├── application-local2.yml
+│           ├── application.yml
+│           ├── db
+│           │   └── migration
+│           └── mapper
+│               ├── CouponMapper.xml
+│               ├── MemberCouponIssueMapper.xml
+│               └── MemberMapper.xml
+├── prometheus
+│   ├── 01JZM785ZFXPTNCF7W0TRFF5QP
+│   │   ├── chunks
+│   │   │   └── 000001
+│   │   ├── index
+│   │   ├── meta.json
+│   │   └── tombstones
+│   ├── 01K0H6HAQGGPNC1ZCNEPFK6GEH
+│   │   ├── chunks
+│   │   │   └── 000001
+│   │   ├── index
+│   │   ├── meta.json
+│   │   └── tombstones
+│   ├── 01K1B2BZB8Q61X5KPW06ZT1Q0T
+│   │   ├── chunks
+│   │   │   └── 000001
+│   │   ├── index
+│   │   ├── meta.json
+│   │   └── tombstones
+│   ├── 01K1BCNM7M3AXBF916YN3V05MB
+│   │   ├── chunks
+│   │   │   └── 000001
+│   │   ├── index
+│   │   ├── meta.json
+│   │   └── tombstones
+│   ├── 01K1E9GDV8EHX6WVVGCJQ3QKQA
+│   │   ├── chunks
+│   │   │   └── 000001
+│   │   ├── index
+│   │   ├── meta.json
+│   │   └── tombstones
+│   ├── 01K1FW7SF69J1WS10XGQ3KNA60
+│   │   ├── chunks
+│   │   │   └── 000001
+│   │   ├── index
+│   │   ├── meta.json
+│   │   └── tombstones
+│   ├── 01K1G33GTZ0NEGD9FQFQWZF1V2
+│   │   ├── chunks
+│   │   │   └── 000001
+│   │   ├── index
+│   │   ├── meta.json
+│   │   └── tombstones
+│   ├── 01K1G33JF1SBCA1E5QDHC4J1FC
+│   │   ├── chunks
+│   │   │   └── 000001
+│   │   ├── index
+│   │   ├── meta.json
+│   │   └── tombstones
+│   ├── 01K1G92VY4TEVJQFHERPS8EHCX
+│   │   ├── chunks
+│   │   │   └── 000001
+│   │   ├── index
+│   │   ├── meta.json
+│   │   └── tombstones
+│   ├── 01K1GHYRXATKSMFZRE49WT95TF
+│   │   ├── chunks
+│   │   │   └── 000001
+│   │   ├── index
+│   │   ├── meta.json
+│   │   └── tombstones
+│   ├── chunks_head
+│   │   ├── 000026
+│   │   └── 000027
+│   ├── lock
+│   ├── queries.active
+│   └── wal
+│       ├── 00000101
+│       ├── 00000102
+│       ├── 00000103
+│       ├── 00000104
+│       └── checkpoint.00000100
+│           └── 00000000
+├── prometheus.yml
+├── redis
+│   ├── conf
+│   └── data
+│       └── dump.rdb
+├── settings.gradle
+├── src
+│   ├── main
+│   │   ├── generated
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── example
+│   │   └── resources
+│   │       ├── application-local1.yml
+│   │       ├── application-local2.yml
+│   │       ├── application.yml
+│   │       ├── db
+│   │       │   └── migration
+│   │       └── mapper
+│   │           ├── CouponMapper.xml
+│   │           ├── MemberCouponIssueMapper.xml
+│   │           └── MemberMapper.xml
+│   └── test
+│       └── java
+│           └── com
+│               └── example
+└── structure.txt
+
+83 directories, 422 files

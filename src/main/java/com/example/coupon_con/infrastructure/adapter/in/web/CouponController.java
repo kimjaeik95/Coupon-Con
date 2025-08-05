@@ -1,7 +1,11 @@
 package com.example.coupon_con.infrastructure.adapter.in.web;
 
 import com.example.coupon_con.application.mapper.CouponDtoMapper;
+import com.example.coupon_con.application.mapper.UpdateCouponMapper;
 import com.example.coupon_con.application.port.in.*;
+import com.example.coupon_con.application.port.in.command.CreateCouponCommand;
+import com.example.coupon_con.application.port.in.command.DeleteCouponCommand;
+import com.example.coupon_con.application.port.in.command.UpdateCouponCommand;
 import com.example.coupon_con.application.port.in.dto.*;
 import com.example.coupon_con.domain.Coupon;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +37,7 @@ public class CouponController {
     private final UpdateCouponUseCase updateCouponUseCase;
     private final FindCouponUseCase findCouponUseCase;
     private final CouponDtoMapper couponDtoMapper;
+    private final UpdateCouponMapper updateCouponMapper;
 
     @PostMapping("/coupon/create")
     public ResponseEntity<?> saveCoupon(@RequestBody CreateCouponRequest couponRequest) {
@@ -58,7 +63,7 @@ public class CouponController {
 
     @PostMapping("/coupon/update/{couponId}")
     public ResponseEntity<?> updateCoupon(@PathVariable("couponId")Long couponId, @RequestBody UpdateCouponRequest updateCouponRequest) {
-        UpdateCouponCommand updateCouponCommand = couponDtoMapper.toUpdateCouponCommand(updateCouponRequest);
+        UpdateCouponCommand updateCouponCommand = updateCouponMapper.toUpdateCouponCommand(updateCouponRequest);
         updateCouponCommand.setCouponId(couponId);
         Coupon coupon = updateCouponUseCase.updateCoupon(updateCouponCommand);
         CouponResponse response = couponDtoMapper.toCouponResponseDto(coupon);

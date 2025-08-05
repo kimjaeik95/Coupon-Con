@@ -1,9 +1,7 @@
 package com.example.coupon_con.application.port.in;
 
-import com.example.coupon_con.application.port.in.dto.UpdateCouponCommand;
+import com.example.coupon_con.application.port.in.command.UpdateCouponCommand;
 import com.example.coupon_con.domain.Coupon;
-
-import java.util.Optional;
 
 /**
  * packageName    : com.example.coupon_con.application.port.in

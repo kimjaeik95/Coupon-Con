@@ -7,4 +7,16 @@
         INSERT INTO member_coupon_issue (coupon_id, member_id, issued_at)
         VALUES (#{couponId}, #{memberId}, #{issuedAt})
     </insert>
+
+    <update id="updateUsedStatus" parameterType="map">
+        UPDATE member_coupon_issue
+        SET used = #{used}, used_at = #{usedAt}
+        WHERE coupon_Issue_Id = #{couponIssueId}
+    </update>
+
+    <select id="findByCouponIssue" resultType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberCouponIssueMybatisEntity">
+        SELECT * FROM member_coupon_issue
+        WHERE member_id = #{memberId}
+        AND  coupon_id = #{couponId}
+    </select>
 </mapper>

@@ -1,6 +1,6 @@
 package com.example.coupon_con.application.port.in;
 
-import com.example.coupon_con.application.port.in.dto.DeleteCouponCommand;
+import com.example.coupon_con.application.port.in.command.DeleteCouponCommand;
 
 /**
  * packageName    : com.example.coupon_con.application.port.in
