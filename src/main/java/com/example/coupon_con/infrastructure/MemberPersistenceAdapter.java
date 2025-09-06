@@ -8,7 +8,9 @@ import com.example.coupon_con.infrastructure.adapter.out.persistence.mapper.Memb
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * packageName    : com.example.coupon_con.infrastructure.adapter
@@ -31,4 +33,12 @@ public class MemberPersistenceAdapter implements FindMemberPort {
         MemberMybatisEntity memberMybatis = memberMapper.findById(memberId);
         return Optional.ofNullable(memberMybatis).map(entityMapper::mapToMemberDomain);
     }
+
+//    @Override
+//    public List<Member> findByAllMember() {
+//        List<MemberMybatisEntity> memberMybatis = memberMapper.findAllMembers();
+//        return memberMybatis.stream()
+//                .map(entityMapper::mapToMemberDomain)
+//                .collect(Collectors.toList());
+//    }
 }

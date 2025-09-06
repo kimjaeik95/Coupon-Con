@@ -2,6 +2,7 @@ package com.example.coupon_con.application.port.out;
 
 import com.example.coupon_con.domain.Member;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -17,4 +18,6 @@ import java.util.Optional;
  */
 public interface FindMemberPort {
     Optional<Member> findById(Long memberId);
+
+//    List<Member> findByAllMember();
 }

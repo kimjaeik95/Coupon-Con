@@ -1,6 +1,5 @@
 package com.example.coupon_con.application.service;
 
-import com.example.coupon_con.application.callback.RedisLockService;
 import com.example.coupon_con.application.port.in.IssueCouponToMemberUseCase;
 import com.example.coupon_con.application.port.in.UseCouponUseCase;
 import com.example.coupon_con.application.port.in.command.UseCouponCommand;
@@ -11,9 +10,6 @@ import com.example.coupon_con.domain.MemberCouponIssue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Instant;
-import java.util.Optional;
 
 /**
  * packageName    : com.example.coupon_con.application.service
@@ -101,7 +97,7 @@ public class CouponIssueService implements IssueCouponToMemberUseCase, UseCoupon
     @Override
     public UseCouponResponse UseCoupon(Long memberId, UseCouponCommand useCouponCommand) {
         // CouponNumber 쿠폰찾기
-        Coupon coupon = findCouponPort.findByCouponNUmber(useCouponCommand.getCouponNumber())
+        Coupon coupon = findCouponPort.findByCouponNumber(useCouponCommand.getCouponNumber())
                 .orElseThrow(() -> new IllegalArgumentException("쿠폰을 찾을 수 없습니다."));
 
         // 멤버Id, 쿠폰Id 쿠폰 발급 이력 찾기

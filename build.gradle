@@ -21,6 +21,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// Spring Batch
+	implementation 'org.springframework.boot:spring-boot-starter-batch'
 	// Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	// redisson

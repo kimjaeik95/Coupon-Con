@@ -4,6 +4,8 @@ import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.Memb
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * packageName    : com.example.coupon_con.infrastructure.adapter.out.persistence.mapper
  * fileName       : MemberMapper
@@ -18,4 +20,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface MemberMapper {
     MemberMybatisEntity findById(Long memberId);
+
+//    List<MemberMybatisEntity> findAllMembers();
 }

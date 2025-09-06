@@ -1,0 +1,17 @@
+{
+	"ulid": "01K4ETN024Q2MWSJ2BEW63AF7F",
+	"minTime": 1754402400269,
+	"maxTime": 1754409600000,
+	"stats": {
+		"numSamples": 11898,
+		"numSeries": 617,
+		"numChunks": 617
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01K4ETN024Q2MWSJ2BEW63AF7F"
+		]
+	},
+	"version": 1
+}

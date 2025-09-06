@@ -6,6 +6,7 @@ import com.example.coupon_con.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,4 +29,6 @@ public class MemberService implements FindMemberUseCase {
         return findMemberPort.findById(memberId)
                 .orElseThrow(()-> new IllegalArgumentException("멤버를 찾을 수 없습니다."));
     }
-}
+
+    }
+

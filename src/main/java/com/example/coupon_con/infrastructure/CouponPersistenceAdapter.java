@@ -63,7 +63,7 @@ public class CouponPersistenceAdapter implements
     }
 
     @Override
-    public Optional<Coupon> findByCouponNUmber(String couponNumber) {
+    public Optional<Coupon> findByCouponNumber(String couponNumber) {
         CouponMybatisEntity couponMybatisEntity = couponMapper.findByCouponNumber(couponNumber);
         return Optional.ofNullable(couponMybatisEntity).map(couponEntityMapper::mapToDomainEntity);
     }
