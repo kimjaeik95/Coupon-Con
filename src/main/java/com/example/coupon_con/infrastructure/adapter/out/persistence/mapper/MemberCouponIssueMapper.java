@@ -3,7 +3,7 @@ package com.example.coupon_con.infrastructure.adapter.out.persistence.mapper;
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberCouponIssueMybatisEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+
 
 import java.time.Instant;
 
