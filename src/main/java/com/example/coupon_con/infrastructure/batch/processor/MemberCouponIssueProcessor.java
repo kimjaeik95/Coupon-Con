@@ -1,14 +1,10 @@
 package com.example.coupon_con.infrastructure.batch.processor;
 
-import com.example.coupon_con.application.service.CouponService;
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberCouponIssueMybatisEntity;
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberMybatisEntity;
-import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
