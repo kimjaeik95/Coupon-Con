@@ -34,11 +34,11 @@ public class MemberPersistenceAdapter implements FindMemberPort {
         return Optional.ofNullable(memberMybatis).map(entityMapper::mapToMemberDomain);
     }
 
-//    @Override
-//    public List<Member> findByAllMember() {
-//        List<MemberMybatisEntity> memberMybatis = memberMapper.findAllMembers();
-//        return memberMybatis.stream()
-//                .map(entityMapper::mapToMemberDomain)
-//                .collect(Collectors.toList());
-//    }
+    @Override
+    public List<Member> findByAllMember() {
+        List<MemberMybatisEntity> memberMybatis = memberMapper.findAllMembers();
+        return memberMybatis.stream()
+                .map(entityMapper::mapToMemberDomain)
+                .collect(Collectors.toList());
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.coupon_con.infrastructure.batch.reader;
+package com.example.coupon_con.application.config.batach;
 
 /**
  * packageName    : com.example.coupon_con.infrastructure.batch.reader
@@ -11,5 +11,5 @@ package com.example.coupon_con.infrastructure.batch.reader;
  * -----------------------------------------------------------
  * 9/8/25        JAEIK       최초 생성
  */
-public class MemberReader {
+public class IssueMemberCouponJob {
 }

@@ -15,9 +15,13 @@ spring:
     hikari:
       maximum-pool-size: 100  # 원하는 최대 커넥션 수로 변경
 
+
   batch:
+    job:
+      enabled: false          # 애플리케이션 시작 시 Job 자동 실행 막기 Api 실행을 위해
     jdbc:
-      initialize-schema: always   # 메타테이블 자동 생성
+      initialize-schema: always  # 배치 메타테이블이 없으면 자동 생성
+
 
   redis:
     host: localhost

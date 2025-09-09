@@ -35,4 +35,6 @@ public class MemberCouponIssueMybatisEntity {
 
     private Instant usedAt;
 
+
+
 }

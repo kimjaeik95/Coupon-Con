@@ -18,6 +18,5 @@ import java.util.Optional;
  */
 public interface FindMemberPort {
     Optional<Member> findById(Long memberId);
-
-//    List<Member> findByAllMember();
+    List<Member> findByAllMember();
 }

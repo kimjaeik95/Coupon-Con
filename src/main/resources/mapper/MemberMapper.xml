@@ -8,6 +8,10 @@
         SELECT * FROM member WHERE member_id = #{memberId}
     </select>
 
+    <select id="findAllMember" resultType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberMybatisEntity">
+       SELECT * FROM member ORDER BY member_id
+    </select>
+
 
 
 
