@@ -20,5 +20,5 @@ import java.util.List;
 public interface MemberMapper {
     MemberMybatisEntity findById(Long memberId);
 
-    List<MemberMybatisEntity> findAllMembers();
+    List<MemberMybatisEntity> findAll();
 }

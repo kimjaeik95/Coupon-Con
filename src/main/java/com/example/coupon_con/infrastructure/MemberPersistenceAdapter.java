@@ -36,7 +36,7 @@ public class MemberPersistenceAdapter implements FindMemberPort {
 
     @Override
     public List<Member> findByAllMember() {
-        List<MemberMybatisEntity> memberMybatis = memberMapper.findAllMembers();
+        List<MemberMybatisEntity> memberMybatis = memberMapper.findAll();
         return memberMybatis.stream()
                 .map(entityMapper::mapToMemberDomain)
                 .collect(Collectors.toList());

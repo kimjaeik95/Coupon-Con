@@ -52,6 +52,10 @@
         SELECT * FROM coupon WHERE coupon_Id = #{couponId}
     </select>
 
+    <select id="findByName" parameterType="java.lang.String" resultType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity">
+        SELECT * FROM coupon WHERE coupon_name = #{couponName}
+    </select>
+
     <select id="findByIdLock" parameterType="java.lang.Long" resultType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.CouponMybatisEntity">
         SELECT * FROM coupon WHERE coupon_id = #{couponId} FOR UPDATE
     </select>

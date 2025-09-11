@@ -55,9 +55,15 @@ public class MainDBConfig {
     public SqlSessionFactory mainSqlSessionFactory(@Qualifier("mainDBSource")DataSource mainDBSource) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(mainDBSource);
+
+        // 🔹 MyBatis Configuration 직접 설정
+        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+        configuration.setMapUnderscoreToCamelCase(true);  // snake_case → camelCase 자동 매핑
+        factoryBean.setConfiguration(configuration);
         factoryBean.setMapperLocations(
                 new PathMatchingResourcePatternResolver().getResources("classpath:/mapper/*.xml")
         );
+
         return factoryBean.getObject();
     }
 

@@ -15,4 +15,6 @@ import com.example.coupon_con.domain.Coupon;
  */
 public interface FindCouponUseCase {
     Coupon findByCoupon(Long couponId);
+
+    Coupon findByCouponName(String couponName);
 }

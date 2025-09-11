@@ -79,4 +79,11 @@ public class CouponService implements
                 .orElseThrow(()-> new IllegalArgumentException("쿠폰을 찾을 수 없습니다."));
 
     }
+
+    @Override
+    public Coupon findByCouponName(String couponName) {
+        return findCouponPort.findByCouponName(couponName)
+                .orElseThrow(() -> new IllegalArgumentException("쿠폰을 찾을 수 없습니다."));
+
+    }
 }

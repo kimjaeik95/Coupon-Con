@@ -38,7 +38,7 @@ public class CouponDtoMapper {
                 .couponId(coupon.getCouponId())
                 .couponName(coupon.getCouponName())
                 .couponNumber(coupon.getCouponNumber())
-                .couponCreateAt(coupon.getCouponCreatedAt())
+                .couponCreatedAt(coupon.getCouponCreatedAt())
                 .couponExpiredAt(coupon.getCouponExpiredAt())
                 .quantity(coupon.getQuantity())
                 .isDeleted(coupon.getIsDeleted())

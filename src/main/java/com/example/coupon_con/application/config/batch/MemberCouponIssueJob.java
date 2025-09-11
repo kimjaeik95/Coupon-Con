@@ -1,12 +1,13 @@
-package com.example.coupon_con.application.config.batach;
+package com.example.coupon_con.application.config.batch;
 
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberCouponIssueMybatisEntity;
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberMybatisEntity;
+
 import com.example.coupon_con.infrastructure.batch.processor.MemberCouponIssueProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
-import org.mybatis.spring.batch.MyBatisPagingItemReader;
+import org.mybatis.spring.batch.MyBatisCursorItemReader;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
@@ -35,13 +36,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class MemberCouponIssueJob {
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
-    private final MyBatisPagingItemReader<MemberMybatisEntity> reader;
+    private final MyBatisCursorItemReader<MemberMybatisEntity> reader;
     private final MyBatisBatchItemWriter<MemberCouponIssueMybatisEntity> writer;
     private final MemberCouponIssueProcessor processor;
 
 
     // Job 정의
-    @Bean
+    @Bean(name = "couponIssueJob")
     public Job memberCouponIssueJob() {
         return new JobBuilder("memberCouponIssueJob", jobRepository) // job 이름설정
                 .listener(new JobExecutionListener() {

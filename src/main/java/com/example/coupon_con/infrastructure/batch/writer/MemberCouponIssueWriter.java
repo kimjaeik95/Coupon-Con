@@ -3,6 +3,7 @@ package com.example.coupon_con.infrastructure.batch.writer;
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberCouponIssueMybatisEntity;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 public class MemberCouponIssueWriter {
 
     @Bean
+    @StepScope
     public MyBatisBatchItemWriter<MemberCouponIssueMybatisEntity> writer(SqlSessionFactory sqlSessionFactory) {
         MyBatisBatchItemWriter<MemberCouponIssueMybatisEntity> writer = new MyBatisBatchItemWriter<>();
         writer.setSqlSessionFactory(sqlSessionFactory); // DB 연결

@@ -2,7 +2,6 @@ spring:
   profiles:
     active:
 
-
   flyway:
     mixed: true
     baseline-on-migrate: false
@@ -14,7 +13,6 @@ spring:
     password: 1234
     hikari:
       maximum-pool-size: 100  # 원하는 최대 커넥션 수로 변경
-
 
   batch:
     job:
@@ -40,6 +38,7 @@ logging:
     java.sql: DEBUG
     jdbc: DEBUG
 
+
 management:
   metrics:
     web:
@@ -50,4 +49,3 @@ management:
       exposure:
         include: "*"        # 모든 엔드포인트 노출
         exclude: []         # 제외할 엔드포인트 (빈 배열로 명시)
-

@@ -29,7 +29,7 @@ public class CouponResponse {
 
     private String couponNumber;
 
-    private Instant couponCreateAt;
+    private Instant couponCreatedAt;
 
     private Instant couponExpiredAt;
 
