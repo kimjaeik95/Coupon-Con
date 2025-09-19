@@ -2,6 +2,7 @@ package com.example.coupon_con.infrastructure.adapter.out.persistence.mapper;
 
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberMybatisEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,4 +22,7 @@ public interface MemberMapper {
     MemberMybatisEntity findById(Long memberId);
 
     List<MemberMybatisEntity> findAll();
+
+    List<MemberMybatisEntity> findAllPaged(@Param("lastId") Long lastId,
+                                      @Param("pageSize") int pageSize);
 }

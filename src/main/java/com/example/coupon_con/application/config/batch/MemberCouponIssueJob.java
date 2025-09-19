@@ -4,10 +4,10 @@ import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.Memb
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberMybatisEntity;
 
 import com.example.coupon_con.infrastructure.batch.processor.MemberCouponIssueProcessor;
+import com.example.coupon_con.infrastructure.batch.writer.BatchInsertWriter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
-import org.mybatis.spring.batch.MyBatisCursorItemReader;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
@@ -15,6 +15,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -36,8 +37,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class MemberCouponIssueJob {
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
-    private final MyBatisCursorItemReader<MemberMybatisEntity> reader;
-    private final MyBatisBatchItemWriter<MemberCouponIssueMybatisEntity> writer;
+    private final ItemReader<MemberMybatisEntity> reader;
+    private final BatchInsertWriter writer;
     private final MemberCouponIssueProcessor processor;
 
 
@@ -69,7 +70,7 @@ public class MemberCouponIssueJob {
     public Step memberCouponIssueStep() {
         return new StepBuilder("memberCouponIssueStep", jobRepository)
                 // chunk 기반 한 번에 처리할 데이터 수, 트랜잭션 관리 매니져 (commit/rollback) 설정
-                .<MemberMybatisEntity, MemberCouponIssueMybatisEntity> chunk(1000, platformTransactionManager)
+                .<MemberMybatisEntity, MemberCouponIssueMybatisEntity> chunk(2000, platformTransactionManager)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)

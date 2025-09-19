@@ -12,6 +12,13 @@
        SELECT * FROM member ORDER BY member_id ASC
     </select>
 
+    <select id="findAllPaged" resultType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberMybatisEntity">
+        SELECT *
+        FROM member
+        WHERE member_id > #{lastId}
+        ORDER BY member_id ASC
+        LIMIT #{pageSize}
+    </select>
 
 
 
