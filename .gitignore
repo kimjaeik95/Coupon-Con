@@ -6,6 +6,9 @@ build/
 !**/src/test/**/build/
 *.sql
 *.db
+grafana/
+prometheus/
+
 ### STS ###
 .apt_generated
 .classpath

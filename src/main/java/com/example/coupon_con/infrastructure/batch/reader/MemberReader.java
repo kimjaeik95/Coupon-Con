@@ -3,10 +3,12 @@ package com.example.coupon_con.infrastructure.batch.reader;
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberMybatisEntity;
 import com.example.coupon_con.infrastructure.adapter.out.persistence.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,7 @@ import java.util.List;
  * 9/8/25        JAEIK       최초 생성
  */
 @Component
+@StepScope
 @RequiredArgsConstructor
 public class MemberReader implements ItemReader<MemberMybatisEntity> {
     private final MemberMapper memberMapper;
@@ -35,6 +38,7 @@ public class MemberReader implements ItemReader<MemberMybatisEntity> {
 
     private List<MemberMybatisEntity> buffer = new ArrayList<>();
     private int index = 0;
+
 
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED) // 트랜잭션 없이
