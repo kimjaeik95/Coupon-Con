@@ -13,10 +13,14 @@
     </select>
 
     <select id="findAllPaged" resultType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberMybatisEntity">
-        SELECT *
-        FROM member
-        WHERE member_id > #{lastId}
-        ORDER BY member_id ASC
+        SELECT m.*
+        FROM member m
+        LEFT JOIN member_coupon_issue i
+          ON m.member_id = i.member_id
+         AND i.coupon_id = #{couponId}
+        WHERE m.member_id > #{lastId}
+         AND i.member_id IS NULL -- 이미 발급된 회원 제외
+        ORDER BY m.member_id ASC
         LIMIT #{pageSize}
     </select>
 

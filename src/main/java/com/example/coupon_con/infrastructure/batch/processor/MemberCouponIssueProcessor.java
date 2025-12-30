@@ -39,6 +39,7 @@ public class MemberCouponIssueProcessor implements ItemProcessor<MemberMybatisEn
 
     @Override
     public MemberCouponIssueMybatisEntity process(MemberMybatisEntity item) throws Exception {
+
         return MemberCouponIssueMybatisEntity.builder()
                 .couponId(couponId)
                 .memberId(item.getMemberId())

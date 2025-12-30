@@ -1,5 +1,6 @@
 package com.example.coupon_con.infrastructure.adapter.in.web;
 
+import com.example.coupon_con.application.service.BatchCouponIssueRecoveryService;
 import com.example.coupon_con.application.service.CouponService;
 import com.example.coupon_con.domain.Coupon;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,11 +32,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api")
+@RequestMapping("/api")
 public class CouponBatchController {
     private final JobLauncher jobLauncher;
     private final Job memberCouponIssueJob;
     private final CouponService couponService;
+    private final BatchCouponIssueRecoveryService recoveryService;
 
     @PostMapping("/batch/coupon")
     public ResponseEntity<String> MemberCouponBatch(@RequestParam("couponName") String couponName) throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
@@ -45,6 +48,12 @@ public class CouponBatchController {
                 .toJobParameters();
 
         jobLauncher.run(memberCouponIssueJob, parameters);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/restart/batch/{jobExecutionId}")
+    public ResponseEntity<String> restart(@PathVariable("jobExecutionId") Long jobExecutionId) throws Exception {
+        recoveryService.restartFailedJob(jobExecutionId);
         return ResponseEntity.ok().build();
     }
 }

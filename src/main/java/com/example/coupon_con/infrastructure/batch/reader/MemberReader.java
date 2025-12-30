@@ -4,7 +4,9 @@ import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.Memb
 import com.example.coupon_con.infrastructure.adapter.out.persistence.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.ItemStreamException;
+import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
@@ -30,21 +32,25 @@ import java.util.List;
 @Component
 @StepScope
 @RequiredArgsConstructor
-public class MemberReader implements ItemReader<MemberMybatisEntity> {
+public class MemberReader implements ItemStreamReader<MemberMybatisEntity> {
     private final MemberMapper memberMapper;
 
+    @Value("#{jobParameters['couponId']}")
+    private long couponId;
+
+    private static final String LAST_ID_KEY = "lastId";
+
     private long lastId = 0L;
+    private int index = 0;
     private final int pageSize = 2000;
 
     private List<MemberMybatisEntity> buffer = new ArrayList<>();
-    private int index = 0;
-
 
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED) // 트랜잭션 없이
     public MemberMybatisEntity read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         if (index >= buffer.size()) {
-            buffer = memberMapper.findAllPaged(lastId, pageSize);
+            buffer = memberMapper.findAllPaged(lastId, pageSize, couponId);
             index = 0;
             if (buffer.isEmpty()) {
                 return null;
@@ -52,6 +58,23 @@ public class MemberReader implements ItemReader<MemberMybatisEntity> {
             lastId = buffer.get(buffer.size() - 1).getMemberId();
         }
         return buffer.get(index++);
+    }
+
+    // restart 마지막 id 저장
+    @Override
+    public void open(ExecutionContext executionContext) throws ItemStreamException {
+        if (executionContext.containsKey(LAST_ID_KEY)) {
+            this.lastId = executionContext.getLong(LAST_ID_KEY);
+        }
+    }
+
+    @Override
+    public void update(ExecutionContext executionContext) throws ItemStreamException {
+        executionContext.putLong(LAST_ID_KEY, lastId);
+    }
+
+    @Override
+    public void close() throws ItemStreamException {
     }
 
 

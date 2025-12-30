@@ -24,5 +24,6 @@ public interface MemberMapper {
     List<MemberMybatisEntity> findAll();
 
     List<MemberMybatisEntity> findAllPaged(@Param("lastId") Long lastId,
-                                      @Param("pageSize") int pageSize);
+                                      @Param("pageSize") int pageSize,
+                                           @Param("couponId")Long couponId);
 }

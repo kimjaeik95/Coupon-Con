@@ -23,7 +23,7 @@ public class BatchInsertWriter implements ItemWriter<MemberCouponIssueMybatisEnt
 
     @Override
     public void write(Chunk<? extends MemberCouponIssueMybatisEntity> chunk) throws Exception {
-        session.update(
+        session.insert(
                 "com.example.coupon_con.infrastructure.adapter.out.persistence.mapper.MemberCouponIssueMapper.batchInsertMemberCouponIssue",
                 chunk.getItems() // Chunk 내부에서 List 추출
         );
