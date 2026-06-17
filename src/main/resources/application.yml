@@ -1,7 +1,11 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   profiles:
     active:
 
+  env_file:
+   - .env
   flyway:
     mixed: true
     baseline-on-migrate: false
@@ -9,8 +13,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3307/coupon-con?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
-    username: root
-    password: 1234
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     hikari:
       maximum-pool-size: 100  # 원하는 최대 커넥션 수로 변경
 
@@ -24,7 +28,13 @@ spring:
   redis:
     host: localhost
     port: 6379
-    password: 1234
+    password: ${REDIS_PASSWORD}
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
 
 mybatis:
   mapper-locations: classpath:/mapper/*.xml

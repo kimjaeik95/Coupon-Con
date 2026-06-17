@@ -4,7 +4,6 @@ import com.example.coupon_con.application.mapper.CouponDtoMapper;
 import com.example.coupon_con.application.mapper.UseCouponMapper;
 import com.example.coupon_con.application.port.in.IssueCouponToMemberUseCase;
 import com.example.coupon_con.application.port.in.UseCouponUseCase;
-import com.example.coupon_con.application.port.in.dto.CouponResponse;
 import com.example.coupon_con.application.port.in.dto.UseCouponRequest;
 import com.example.coupon_con.application.port.in.dto.UseCouponResponse;
 import com.example.coupon_con.application.service.LettuceLockFacade;

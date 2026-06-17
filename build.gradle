@@ -29,6 +29,8 @@ dependencies {
 	implementation 'org.redisson:redisson-spring-boot-starter:3.41.0'
 	// Mybatis
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+	// RabbitMq
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
 	// MySQL 연결을 위한 의존성
 	runtimeOnly 'com.mysql:mysql-connector-j:8.3.0'

@@ -8,6 +8,7 @@ build/
 *.db
 grafana/
 prometheus/
+.env
 
 ### STS ###
 .apt_generated

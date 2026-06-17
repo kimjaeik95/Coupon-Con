@@ -17,7 +17,17 @@ scrape_configs:
         # 도커 내부에서 호스트의 8080 포트 접근 시 필요 (Mac/Windows 기준)
         # 만약 Spring Boot도 도커로 실행 중이라면 service 이름:포트 로 지정해야 함
 
+   # 도커 컨테이너 지표
+  - job_name: 'cadvisor'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ 'cadvisor:8080' ]
 
   - job_name: 'mysql-exporter'
     static_configs:
       - targets: ['mysql-exporter:9104']
+
+  - job_name: 'rabbitmq'
+    static_configs:
+      - targets: [ 'rabbitmq:15692' ]
+
