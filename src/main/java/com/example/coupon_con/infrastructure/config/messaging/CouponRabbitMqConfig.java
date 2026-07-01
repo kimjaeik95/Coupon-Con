@@ -1,5 +1,7 @@
 package com.example.coupon_con.infrastructure.config.messaging;
 
+import com.example.coupon_con.infrastructure.properties.CouponRabbitProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -23,21 +25,20 @@ import org.springframework.context.annotation.Configuration;
  * 7/1/26        JAEIK       최초 생성
  */
 @Configuration
+@RequiredArgsConstructor
 public class CouponRabbitMqConfig {
-    public static final String COUPON_ISSUE_EXCHANGE = "coupon.issue.exchange";
-    public static final String COUPON_ISSUE_QUEUE = "coupon.issue.queue";
-    public static final String COUPON_ISSUE_ROUTING_KEY = "coupon.issue";
+    private final CouponRabbitProperties properties;
 
     // 단일 큐이기 때문에 DirectExchange 설정
     @Bean
     public DirectExchange couponIssueExchange() {
-        return new DirectExchange(COUPON_ISSUE_EXCHANGE);
+        return new DirectExchange(properties.getExchange());
     }
 
     @Bean
     public Queue couponIssueQueue() {
         // durable=true  RabbitMQ 재시작시 큐는 살아있지만 메시지는 유실되므로 메시지는  persistent 설정필요
-        return new Queue(COUPON_ISSUE_QUEUE, true);
+        return new Queue(properties.getQueue(), true);
     }
 
     // couponIssueExchange 들어온 메시지가  routingKey  일치하는 Queue 보낸다 (바인딩)
@@ -45,7 +46,7 @@ public class CouponRabbitMqConfig {
     public Binding couponIssueBinding(Queue couponIssueQueue, DirectExchange couponIssueExchange) {
         return BindingBuilder.bind(couponIssueQueue)
                 .to(couponIssueExchange)
-                .with(COUPON_ISSUE_ROUTING_KEY);
+                .with(properties.getRoutingKey());
     }
 
     // 매번 직렬화/역직렬화 코드를 작성해야 하는 번거로움 해결해줌
