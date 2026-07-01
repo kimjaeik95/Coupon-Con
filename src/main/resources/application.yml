@@ -1,6 +1,8 @@
 spring:
   config:
-    import: optional:file:.env[.properties]
+    import:
+    - optional:file:.env[.properties]
+    - classpath:application-rabbitmq.yml
   profiles:
     active:
 
@@ -35,6 +37,9 @@ spring:
     port: 5672
     username: ${RABBITMQ_USERNAME}
     password: ${RABBITMQ_PASSWORD}
+
+
+
 
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
