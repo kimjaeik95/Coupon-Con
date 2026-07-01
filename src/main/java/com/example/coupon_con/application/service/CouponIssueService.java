@@ -74,6 +74,7 @@ public class CouponIssueService implements IssueCouponToMemberUseCase, UseCoupon
 
     // Facade 패턴과 Call 패턴을 위한 기본 서비스 로직
     @Override
+    @Transactional
     public Coupon issueCouponNormally(Long memberId, Long couponId) {
         findMemberPort.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없습니다."));
