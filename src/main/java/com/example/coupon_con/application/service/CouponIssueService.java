@@ -44,7 +44,7 @@ public class CouponIssueService implements IssueCouponToMemberUseCase, UseCoupon
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
 
         // 쿠폰 발급 테이블 Insert
-        MemberCouponIssue memberCouponIssue = new MemberCouponIssue(memberId, couponId);
+        MemberCouponIssue memberCouponIssue = MemberCouponIssue.forIssue(memberId, couponId);
         issueCouponToMemberPort.saveMemberCouponIssue(memberCouponIssue);
         return coupon;
     }
@@ -66,7 +66,7 @@ public class CouponIssueService implements IssueCouponToMemberUseCase, UseCoupon
         updateQuantityCouponPort.updateQuantity(coupon);
 
 
-        MemberCouponIssue memberCouponIssue = new MemberCouponIssue(memberId, couponId);
+        MemberCouponIssue memberCouponIssue = MemberCouponIssue.forIssue(memberId, couponId);
         issueCouponToMemberPort.saveMemberCouponIssue(memberCouponIssue);
 
         return coupon;
@@ -86,7 +86,7 @@ public class CouponIssueService implements IssueCouponToMemberUseCase, UseCoupon
 
         updateQuantityCouponPort.updateQuantity(coupon);
 
-        MemberCouponIssue couponIssue = new MemberCouponIssue(memberId, couponId);
+        MemberCouponIssue couponIssue = MemberCouponIssue.forIssue(memberId, couponId);
 
         issueCouponToMemberPort.saveMemberCouponIssue(couponIssue);
 
