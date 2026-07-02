@@ -26,7 +26,6 @@ import javax.sql.DataSource;
  */
 @Configuration
 public class MetaDBConfig {
-    @Primary //Batch 가 우선적으로 이 DB를 사용하도록
     @Bean
     public DataSource metaDBSource() {
         HikariDataSource dataSource = new HikariDataSource();
@@ -38,7 +37,6 @@ public class MetaDBConfig {
         return dataSource;
     }
 
-    @Primary // Batch 트랜잭션 매니져
     @Bean
     public PlatformTransactionManager metaTransactionManager() {
         return new DataSourceTransactionManager(metaDBSource());

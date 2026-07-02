@@ -16,6 +16,7 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemReader;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -33,14 +34,20 @@ import org.springframework.transaction.PlatformTransactionManager;
  */
 @Configuration
 @Slf4j
-@RequiredArgsConstructor
 public class MemberCouponIssueJob {
     private final JobRepository jobRepository;
-    private final PlatformTransactionManager platformTransactionManager;
+    private final PlatformTransactionManager metaTransactionManager;
     private final ItemReader<MemberMybatisEntity> reader;
     private final BatchInsertWriter writer;
     private final MemberCouponIssueProcessor processor;
 
+    public MemberCouponIssueJob(JobRepository jobRepository, @Qualifier("metaTransactionManager") PlatformTransactionManager metaTransactionManager, ItemReader<MemberMybatisEntity> reader, BatchInsertWriter writer, MemberCouponIssueProcessor processor) {
+        this.jobRepository = jobRepository;
+        this.metaTransactionManager = metaTransactionManager;
+        this.reader = reader;
+        this.writer = writer;
+        this.processor = processor;
+    }
 
     // Job 정의
     @Bean(name = "couponIssueJob")
@@ -70,7 +77,7 @@ public class MemberCouponIssueJob {
     public Step memberCouponIssueStep() {
         return new StepBuilder("memberCouponIssueStep", jobRepository)
                 // chunk 기반 한 번에 처리할 데이터 수, 트랜잭션 관리 매니져 (commit/rollback) 설정
-                .<MemberMybatisEntity, MemberCouponIssueMybatisEntity> chunk(2000, platformTransactionManager)
+                .<MemberMybatisEntity, MemberCouponIssueMybatisEntity> chunk(2000, metaTransactionManager)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)

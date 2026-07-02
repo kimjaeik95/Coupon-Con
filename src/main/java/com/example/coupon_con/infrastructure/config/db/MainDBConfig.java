@@ -33,6 +33,7 @@ import javax.sql.DataSource;
 @MapperScan(basePackages = "com.example.coupon_con.infrastructure.adapter.out.persistence.mapper", sqlSessionFactoryRef = "mainSqlSessionFactory")
 public class MainDBConfig {
 
+    @Primary
     @Bean(name = "mainDBSource")
     public DataSource mainDBSource() {
         HikariDataSource ds = new HikariDataSource();
@@ -45,6 +46,7 @@ public class MainDBConfig {
     }
 
 
+    @Primary
     @Bean
     public PlatformTransactionManager mainTransactionManager(@Qualifier("mainDBSource") DataSource mainDBSource) {
         return new DataSourceTransactionManager(mainDBSource);
