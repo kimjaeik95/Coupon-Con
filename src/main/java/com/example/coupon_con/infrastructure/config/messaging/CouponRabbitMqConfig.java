@@ -36,10 +36,6 @@ public class CouponRabbitMqConfig {
         return new DirectExchange(properties.getExchange());
     }
 
-    @Bean
-    public Queue dlq() {
-        return QueueBuilder.durable().build();
-    }
 
     @Bean
     public Queue couponIssueQueue() {

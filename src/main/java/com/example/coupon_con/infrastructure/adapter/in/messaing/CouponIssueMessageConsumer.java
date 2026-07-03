@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 public class CouponIssueMessageConsumer {
     private final IssueCouponToMemberPort issueCouponToMemberPort;
 
-    @RabbitListener(queues = "#{@couponRabbitProperties.queue}")
+    @RabbitListener(queues = "${app.rabbitmq.coupon.queue}")
     public void consume(CouponIssueMessage message) {
         MemberCouponIssue memberCouponIssue = MemberCouponIssue.forIssue(message.getMemberId(), message.getCouponId());
         issueCouponToMemberPort.saveMemberCouponIssue(memberCouponIssue);

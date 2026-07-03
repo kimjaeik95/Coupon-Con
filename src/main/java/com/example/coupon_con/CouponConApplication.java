@@ -11,5 +11,4 @@ public class CouponConApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CouponConApplication.class, args);
 	}
-
 }

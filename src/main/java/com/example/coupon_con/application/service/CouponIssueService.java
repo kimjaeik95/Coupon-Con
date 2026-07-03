@@ -8,8 +8,10 @@ import com.example.coupon_con.application.port.out.*;
 import com.example.coupon_con.domain.Coupon;
 import com.example.coupon_con.domain.MemberCouponIssue;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
  * packageName    : com.example.coupon_con.application.service
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 6/28/25       JAEIK       최초 생성
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CouponIssueService implements IssueCouponToMemberUseCase, UseCouponUseCase {
     private final IssueCouponToMemberPort issueCouponToMemberPort;
@@ -65,7 +68,6 @@ public class CouponIssueService implements IssueCouponToMemberUseCase, UseCoupon
 
         updateQuantityCouponPort.updateQuantity(coupon);
 
-
         MemberCouponIssue memberCouponIssue = MemberCouponIssue.forIssue(memberId, couponId);
         issueCouponToMemberPort.saveMemberCouponIssue(memberCouponIssue);
 
@@ -85,10 +87,6 @@ public class CouponIssueService implements IssueCouponToMemberUseCase, UseCoupon
         coupon.decreaseQuantity();
 
         updateQuantityCouponPort.updateQuantity(coupon);
-
-        MemberCouponIssue couponIssue = MemberCouponIssue.forIssue(memberId, couponId);
-
-        issueCouponToMemberPort.saveMemberCouponIssue(couponIssue);
 
         return coupon;
     }

@@ -1,6 +1,8 @@
 package com.example.coupon_con.infrastructure.properties;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -15,7 +17,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * 7/2/26        JAEIK       최초 생성
  */
 @Getter
-@ConfigurationProperties(prefix = "rabbitmq.coupon")
+@Setter
+@ConfigurationProperties(prefix = "app.rabbitmq.coupon")
 public class CouponRabbitProperties {
     private String exchange;
     private String queue;
