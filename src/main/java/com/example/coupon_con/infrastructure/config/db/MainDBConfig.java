@@ -7,8 +7,6 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -41,7 +39,8 @@ public class MainDBConfig {
         ds.setUsername("root");
         ds.setPassword("1234");
         ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        ds.setMaximumPoolSize(100);
+        ds.setMaximumPoolSize(20);
+       // ds.setConnectionTimeout(30000);
         return ds;
     }
 

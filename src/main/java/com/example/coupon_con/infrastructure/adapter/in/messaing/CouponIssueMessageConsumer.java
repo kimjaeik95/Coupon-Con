@@ -1,8 +1,9 @@
 package com.example.coupon_con.infrastructure.adapter.in.messaing;
 
+import com.example.coupon_con.application.callback.RedisLockService;
+import com.example.coupon_con.application.callback.RedisLockTime;
 import com.example.coupon_con.application.port.in.dto.CouponIssueMessage;
-import com.example.coupon_con.application.port.out.IssueCouponToMemberPort;
-import com.example.coupon_con.domain.MemberCouponIssue;
+import com.example.coupon_con.application.service.CouponIssueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -21,11 +22,14 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class CouponIssueMessageConsumer {
-    private final IssueCouponToMemberPort issueCouponToMemberPort;
+    private final RedisLockService redisLockService;
+    private final CouponIssueService couponIssueService;
 
     @RabbitListener(queues = "${app.rabbitmq.coupon.queue}")
     public void consume(CouponIssueMessage message) {
-        MemberCouponIssue memberCouponIssue = MemberCouponIssue.forIssue(message.getMemberId(), message.getCouponId());
-        issueCouponToMemberPort.saveMemberCouponIssue(memberCouponIssue);
+        redisLockService.callWithLock(
+                message.getCouponId(),
+                () -> couponIssueService.issueCouponNormally(message.getMemberId(), message.getCouponId()),
+                RedisLockTime.LONG_LOCK);
     }
 }

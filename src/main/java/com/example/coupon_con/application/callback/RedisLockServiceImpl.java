@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.function.Supplier;
 
@@ -28,8 +25,6 @@ import java.util.function.Supplier;
 public class RedisLockServiceImpl implements RedisLockService {
     private static final String REDIS_LOCK_PREFIX = "lock:coupon:";
     private final RedissonClient redissonClient;
-    private final ApplicationEventPublisher applicationEventPublisher;
-
     @Override
     public <T> T callWithLock(Long lockKey, Supplier<T> supplier, RedisLockTime lockTime) {
         String key = generateKey(lockKey);
@@ -37,45 +32,31 @@ public class RedisLockServiceImpl implements RedisLockService {
         return this.execute(supplier, lockTime, key, lock);
     }
 
-    // callWithLock 전체공개가능한 Api 상세로직은 private 관리
-    private <T> T execute(final Supplier<T> supplier, RedisLockTime redisLockTime, final String key, final RLock lock) {
+    private <T> T execute(Supplier<T> supplier, RedisLockTime redisLockTime, String key, RLock lock) {
+        boolean isLocked = false;
         try {
-            log.info("lock 획득 시도: {}", key);
-            if (lock.tryLock(redisLockTime.getWaitTime(), redisLockTime.getLeaseTime(), redisLockTime.getTimeUnit())) {
-                log.info("lock 획득 성공: {}", key);
-                // 락을 얻게되면 서비스로직 호출 실행
-                return supplier.get();
+            log.info("lock 획득시도: {}", key);
+            isLocked = lock.tryLock(redisLockTime.getWaitTime(),
+                    redisLockTime.getLeaseTime(),
+                    redisLockTime.getTimeUnit());
+
+            if (!isLocked) {
+                throw new IllegalArgumentException("락 획득 실패: " + key);
             }
-            // 락 획득실패에대한 예외처리
-            throw new IllegalStateException("락 획득 실패");
-            // 실 프로젝트라면 커스텀 인셉션으로 명확한 예외처리 해주는게 좋을거 같다.
-        } catch (InterruptedException e) { // 스레드 작업 멈춤 (인터럽트 발생)
-            log.error("lock 획득 실패: {}", key);
-            throw new IllegalStateException("락 획득 중 인터러트 발생", e);
+
+            log.info("lock 획득 성공: {}", key);
+
+            // supplier.get() 리턴 시점내부 @Transactional 메서드가 이미 커밋 완료된 시점
+            return supplier.get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.error("lock 획득 중 인터럽트 발생 중지요청: {}", key);
+            throw new IllegalStateException("락 획득 중 인터럽트 발생", e);
         } finally {
-            // 이벤트 발행 파라미터 타입으로 스프링이 인식하기때문에  이벤트 발행 = 파라미터 타입객체 해야한다. (다른 이벤트는 다른 파라미터 객체 or 특정조건)
-            applicationEventPublisher.publishEvent(new RedisLockEvent(key, lock));
-        }
-    }
-
-    // 트랜잭션이 성공적으로 커밋되거나 롤백되었을 때 그 시점에 맞춰 이벤트 리스너를 처리하도록 등록
-    // 직접 subscribeUnlock 이 아닌 트랜잭션 상태가 변화하면 스프링이 자동적으로 실행
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
-    public void subscribeUnlock(final RedisLockEvent lockEvent) {
-        try {
-            lockEvent.unlock();
-            log.info("lock 해제 성공: {}", lockEvent.key);
-        } catch (IllegalMonitorStateException e) {
-            log.warn("이미 해제된 lock 입니다: {}", lockEvent.key);
-        }
-    }
-
-
-    // record 불변데이터 간결하게 필드 + 생성자 + getter 생성
-    // 재사용되지 않을거 같아 따로 클래스를 만들지 않았다.
-    public record RedisLockEvent(String key, RLock lock) {
-        public void unlock() {
-            this.lock.unlock();
+            if (isLocked && lock.isHeldByCurrentThread()) {
+                lock.unlock();
+                log.info("lock 해제성공: {}", key);
+            }
         }
     }
 
@@ -83,4 +64,48 @@ public class RedisLockServiceImpl implements RedisLockService {
         return REDIS_LOCK_PREFIX + lockKey;
     }
 }
+
+    // callWithLock 전체공개가능한 Api 상세로직은 private 관리
+    // 락을 잡은 지점 트랜잭션이 커밋되는 지점보다 먼저 끝나버리는 상황
+//    private <T> T execute(final Supplier<T> supplier, RedisLockTime redisLockTime, final String key, final RLock lock) {
+//        try {
+//            log.info("lock 획득 시도: {}", key);
+//            if (lock.tryLock(redisLockTime.getWaitTime(), redisLockTime.getLeaseTime(), redisLockTime.getTimeUnit())) {
+//                log.info("lock 획득 성공: {}", key);
+//                // 락을 얻게되면 서비스로직 호출 실행
+//                return supplier.get();
+//            }
+//            // 락 획득실패에대한 예외처리
+//            throw new IllegalStateException("락 획득 실패");
+//            // 실 프로젝트라면 커스텀 인셉션으로 명확한 예외처리 해주는게 좋을거 같다.
+//        } catch (InterruptedException e) { // 스레드 작업 멈춤 (인터럽트 발생)
+//            log.error("lock 획득 실패: {}", key);
+//            throw new IllegalStateException("락 획득 중 인터러트 발생", e);
+//        } finally {
+//            // 이벤트 발행 파라미터 타입으로 스프링이 인식하기때문에  이벤트 발행 = 파라미터 타입객체 해야한다. (다른 이벤트는 다른 파라미터 객체 or 특정조건)
+//            applicationEventPublisher.publishEvent(new RedisLockEvent(key, lock));
+//        }
+//    }
+//
+//    // record 불변데이터 간결하게 필드 + 생성자 + getter 생성
+//    // 재사용되지 않을거 같아 따로 클래스를 만들지 않았다.
+//    public record RedisLockEvent(String key, RLock lock) {
+//        public void unlock() {
+//            this.lock.unlock();
+//        }
+//    }
+//
+//
+//    // 트랜잭션이 성공적으로 커밋되거나 롤백되었을 때 그 시점에 맞춰 이벤트 리스너를 처리하도록 등록
+//    // 직접 subscribeUnlock 이 아닌 트랜잭션 상태가 변화하면 스프링이 자동적으로 실행
+//    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
+//    public void subscribeUnlock(final RedisLockEvent lockEvent) {
+//        try {
+//            lockEvent.unlock();
+//            log.info("lock 해제 성공: {}", lockEvent.key);
+//        } catch (IllegalMonitorStateException e) {
+//            log.warn("이미 해제된 lock 입니다: {}", lockEvent.key);
+//        }
+//    }
+//}
 

@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
  * packageName    : com.example.coupon_con.application.service
@@ -78,15 +77,14 @@ public class CouponIssueService implements IssueCouponToMemberUseCase, UseCoupon
     @Override
     @Transactional
     public Coupon issueCouponNormally(Long memberId, Long couponId) {
-        findMemberPort.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없습니다."));
-
         Coupon coupon = findCouponPort.findById(couponId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("쿠폰 발급 처리 중 쿠폰을 찾을 수 없습니다."));
 
         coupon.decreaseQuantity();
-
         updateQuantityCouponPort.updateQuantity(coupon);
+
+        MemberCouponIssue memberCouponIssue = MemberCouponIssue.forIssue(memberId, couponId);
+        issueCouponToMemberPort.saveMemberCouponIssue(memberCouponIssue);
 
         return coupon;
     }

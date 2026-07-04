@@ -42,8 +42,8 @@ public class MemberCouponIssueController {
         return ResponseEntity.ok().body(couponDtoMapper.toCouponResponseDto(coupon));
     }
     // 서비스로직에서 수량 감소 후 발급
-    @PostMapping("/issue/pessimistic")
-    public ResponseEntity<?> issueCouponPessimisticLock(@RequestParam("memberId") Long memberId, @RequestParam("couponId") Long couponId) {
+    @PostMapping("/issue/pessimistic/{couponId}")
+    public ResponseEntity<?> issueCouponPessimisticLock(@PathVariable("couponId") Long couponId, @RequestParam("memberId") Long memberId) {
         Coupon coupon = issueCouponToMemberUseCase.issueCouponWithPessimisticLock(memberId, couponId);
         return ResponseEntity.ok().body(couponDtoMapper.toCouponResponseDto(coupon));
     }
@@ -55,11 +55,11 @@ public class MemberCouponIssueController {
         return ResponseEntity.ok().body(couponDtoMapper.toCouponResponseDto(coupon));
     }
 
-    // redis Redisson
-    @PostMapping("/issue/redisson")
-    public ResponseEntity<?> issueCouponRedissonLock(@RequestParam("memberId") Long memberId, @RequestParam("couponId") Long couponId) {
-        Coupon coupon = redissonLockFacade.issueCouponWithRedissonLock(memberId, couponId);
-        return ResponseEntity.ok().body(couponDtoMapper.toCouponResponseDto(coupon));
+    // redis Redisson 비동기
+    @PostMapping("/issue/{couponId}")
+    public ResponseEntity<?> issueCouponRedissonLock(@PathVariable("couponId") Long couponId, @RequestParam("memberId") Long memberId) {
+        redissonLockFacade.issueCouponWithRedissonLockAsync(memberId, couponId);
+        return ResponseEntity.ok().body("발급 중");
     }
 
     @PostMapping("/issue/callback")

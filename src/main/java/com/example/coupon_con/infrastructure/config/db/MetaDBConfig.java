@@ -1,13 +1,8 @@
 package com.example.coupon_con.infrastructure.config.db;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -33,7 +28,7 @@ public class MetaDBConfig {
         dataSource.setJdbcUrl("jdbc:mysql://localhost:3307/meta_db?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true");
         dataSource.setUsername("root");
         dataSource.setPassword("1234");
-        dataSource.setMaximumPoolSize(10);
+        dataSource.setMaximumPoolSize(5);
         return dataSource;
     }
 
