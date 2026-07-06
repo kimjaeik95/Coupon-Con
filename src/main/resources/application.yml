@@ -68,6 +68,19 @@ logging:
 
 management:
   metrics:
+    distribution:
+      percentiles-histogram:
+        coupon:
+          issue:
+            queue:
+              wait: true
+            lock:
+              wait: true
+            process:
+              duration: true
+            total:
+              duration: true
+
     web:
       server: {}
 

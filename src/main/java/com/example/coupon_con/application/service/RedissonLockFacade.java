@@ -6,6 +6,8 @@ import com.example.coupon_con.application.port.out.FindCouponPort;
 import com.example.coupon_con.application.port.out.FindMemberPort;
 import com.example.coupon_con.domain.Coupon;
 import com.example.coupon_con.infrastructure.adapter.out.messaging.CouponIssueMessagePublisher;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -29,19 +31,33 @@ public class RedissonLockFacade {
     private final RedisLockService redisLockService;
     private final CouponIssueService couponIssueService;
     private final CouponIssueMessagePublisher couponIssueMessagePublisher;
+    private final MeterRegistry meterRegistry;
 
     // 코드 내부에 redisson Lock 실행
     public void issueCouponWithRedissonLockAsync(Long memberId, Long couponId) {
-        findMemberPort.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없습니다."));
+        Timer.Sample sample = Timer.start(meterRegistry);
 
-        findCouponPort.findById(couponId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
+        try {
+            findMemberPort.findById(memberId)
+                    .orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없습니다."));
 
-        CouponIssueMessage couponIssueMessage = CouponIssueMessage.of(memberId, couponId);
+            findCouponPort.findById(couponId)
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
 
-        couponIssueMessagePublisher.publish(couponIssueMessage);
+            CouponIssueMessage couponIssueMessage = CouponIssueMessage.of(memberId, couponId);
 
+            couponIssueMessagePublisher.publish(couponIssueMessage);
+
+            sample.stop(Timer.builder("coupon.issue.sync.duration")
+                    .tag("result", "success")
+                    .register(meterRegistry));
+
+        } catch (Exception e) {
+            sample.stop(Timer.builder("coupon.issue.sync.duration")
+                    .tag("result", "fail")
+                    .register(meterRegistry));
+            throw e;
+        }
     }
 
     // 콜백 형식

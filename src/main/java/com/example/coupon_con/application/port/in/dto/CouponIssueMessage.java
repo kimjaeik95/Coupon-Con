@@ -24,11 +24,13 @@ public class CouponIssueMessage {
     // RabbitMQ 는 Pojo 객체로 넘기는게 좋다.
     private Long memberId;
     private Long couponId;
+    private long publishedAt;
 
     public static CouponIssueMessage of(Long memberId, Long couponId) {
         return CouponIssueMessage.builder()
                 .memberId(memberId)
                 .couponId(couponId)
+                .publishedAt(System.currentTimeMillis())
                 .build();
     }
 }
