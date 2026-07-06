@@ -20,7 +20,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class SseEmitterRepository {
-    private static final Long DEFAULT_TIMEOUT = 10L * 60 * 1000; //10분
 
     // 서버:emitter 메모리  1:1   / key : 문자열 , value : emitter 실제 객체 인스턴스
     // ConcurrentHashMap 동일 회원 여러스레드에서 들어와도 중복 처리방지
