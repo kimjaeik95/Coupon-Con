@@ -32,7 +32,7 @@ public class CouponSubscribeController {
 
     // SSE 응답을 위해 Content-Type: text/event-stream 설정
     @GetMapping(value = "/subscribe/{couponId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter subscribe(@PathVariable Long couponId, @RequestParam Long memberId) {
+    public SseEmitter subscribe(@PathVariable("couponId") Long couponId, @RequestParam("memberId") Long memberId) {
 
         SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
 
