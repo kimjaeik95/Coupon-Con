@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class SseEmitterRepository {
 
-    // 서버:emitter 메모리  1:1   / key : 문자열 , value : emitter 실제 객체 인스턴스
+    // 사용자 :emitter 메모리  1:1   / key : 문자열 , value : emitter 실제 객체 인스턴스
     // ConcurrentHashMap 동일 회원 여러스레드에서 들어와도 중복 처리방지
     private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
 

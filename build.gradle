@@ -49,6 +49,8 @@ dependencies {
 
 	// Prometheus 형식으로 메트릭 데이터를 수집하고 제공
 	implementation 'io.micrometer:micrometer-registry-prometheus'
+
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 tasks.named('test') {
