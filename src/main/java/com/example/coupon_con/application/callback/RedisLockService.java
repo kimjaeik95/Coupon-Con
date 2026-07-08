@@ -1,6 +1,5 @@
 package com.example.coupon_con.application.callback;
 
-import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 /**

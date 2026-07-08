@@ -1,6 +1,7 @@
 # compose 파일 버전
 version: '3'
 services:
+
   # 서비스 명
   mysql:
     # 사용할 이미지
@@ -14,7 +15,7 @@ services:
       - "3307:3306"
     # 환경 변수 설정
     environment:
-      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: coupon-con
       TZ: Asia/Seoul
     # 명렬어 설정
@@ -24,6 +25,28 @@ services:
     # 볼륨 설정
     volumes:
       - ./data/coupon-issue-mysql/:/var/lib/mysql
+
+  rabbitmq:
+    # 사용할 이미지 (management 플러그인 포함 - 웹 관리 UI로 큐/컨슈머 상태 확인 가능)
+    image: rabbitmq:3.13-management
+    # 컨테이너명 설정
+    container_name: coupon-issue-rabbitmq
+    # 컨테이너 종료시 재시작 여부 설정
+    restart: on-failure
+    # 접근 포트 설정
+    ports:
+      - "5672:5672" # Spring RabbitMQ와 통신
+      - "15672:15672" # RabbitMQ 관리 페이지(Web UI)
+      - "15692:15692" # Prometheus가 메트릭 수집
+    # 환경 변수 설정
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+      TZ: Asia/Seoul
+    # 볼륨 설정 (큐/메시지 데이터 영속화)
+    volumes:
+      - ./data/coupon-issue-rabbitmq:/var/lib/rabbitmq
+
 
   redis_container:
     # 사용할 이미지
@@ -47,7 +70,6 @@ services:
 
 
 
-
   mysql-exporter:
     container_name: mysql-exporter
     image: prom/mysqld-exporter
@@ -61,6 +83,24 @@ services:
     depends_on:
       - mysql
 
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    restart: always
+    ports:
+      - "8082:8080"
+    volumes:
+      # Docker 데몬 소켓: 컨테이너 목록과 상태 정보를 읽기 위해 필요
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # 호스트 루트 파일시스템: 디스크/네트워크 통계를 읽기 위해 필요
+      - /:/rootfs:ro
+      # 호스트 /sys: cgroup, 네트워크 인터페이스 정보 접근
+      - /sys:/sys:ro
+      # Docker 데이터 디렉토리: 컨테이너 스토리지 정보
+      - /var/lib/docker/:/var/lib/docker:ro
+    privileged: true   # cgroup 등 시스템 레벨 정보에 접근하기 위해 필요
+    depends_on:
+      - mysql
 
   prometheus:
     image: prom/prometheus
@@ -89,6 +129,6 @@ services:
     volumes:
     - ./grafana:/var/lib/grafana
     environment:
-    - GF_SECURITY_ADMIN_USER=admin # grafana 사용자 이름
-    - GF_SECURITY_ADMIN_PASSWORD=1815 # grafana 사용자 비밀번호
+    - GF_SECURITY_ADMIN_USER=${GRAFANA_USER} # grafana 사용자 이름
+    - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD} # grafana 사용자 비밀번호
     - GF_USERS_ALLOW_SIGN_UP=false

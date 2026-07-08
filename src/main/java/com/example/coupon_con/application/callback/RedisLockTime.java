@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,6 +30,6 @@ public class RedisLockTime {
     // 상수로 만들어놓는게 더 효울적이다  클래스 로드시 1회 생성 / 메서드 호출할때마다 생성
     public static final RedisLockTime DEFAULT = new RedisLockTime(5, 3, TimeUnit.SECONDS);
     public static final RedisLockTime SHORT_LOCK = new RedisLockTime(1, 2, TimeUnit.SECONDS);
-    public static final RedisLockTime LONG_LOCK = new RedisLockTime(10, 30, TimeUnit.SECONDS);
+    public static final RedisLockTime LONG_LOCK = new RedisLockTime(10, 5, TimeUnit.SECONDS);
 
 }

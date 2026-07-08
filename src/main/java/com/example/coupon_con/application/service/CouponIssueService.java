@@ -8,6 +8,7 @@ import com.example.coupon_con.application.port.out.*;
 import com.example.coupon_con.domain.Coupon;
 import com.example.coupon_con.domain.MemberCouponIssue;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 6/28/25       JAEIK       최초 생성
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CouponIssueService implements IssueCouponToMemberUseCase, UseCouponUseCase {
     private final IssueCouponToMemberPort issueCouponToMemberPort;
@@ -44,7 +46,7 @@ public class CouponIssueService implements IssueCouponToMemberUseCase, UseCoupon
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
 
         // 쿠폰 발급 테이블 Insert
-        MemberCouponIssue memberCouponIssue = new MemberCouponIssue(memberId, couponId);
+        MemberCouponIssue memberCouponIssue = MemberCouponIssue.forIssue(memberId, couponId);
         issueCouponToMemberPort.saveMemberCouponIssue(memberCouponIssue);
         return coupon;
     }
@@ -65,8 +67,7 @@ public class CouponIssueService implements IssueCouponToMemberUseCase, UseCoupon
 
         updateQuantityCouponPort.updateQuantity(coupon);
 
-
-        MemberCouponIssue memberCouponIssue = new MemberCouponIssue(memberId, couponId);
+        MemberCouponIssue memberCouponIssue = MemberCouponIssue.forIssue(memberId, couponId);
         issueCouponToMemberPort.saveMemberCouponIssue(memberCouponIssue);
 
         return coupon;
@@ -74,20 +75,16 @@ public class CouponIssueService implements IssueCouponToMemberUseCase, UseCoupon
 
     // Facade 패턴과 Call 패턴을 위한 기본 서비스 로직
     @Override
+    @Transactional
     public Coupon issueCouponNormally(Long memberId, Long couponId) {
-        findMemberPort.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없습니다."));
-
         Coupon coupon = findCouponPort.findById(couponId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("쿠폰 발급 처리 중 쿠폰을 찾을 수 없습니다."));
 
         coupon.decreaseQuantity();
-
         updateQuantityCouponPort.updateQuantity(coupon);
 
-        MemberCouponIssue couponIssue = new MemberCouponIssue(memberId, couponId);
-
-        issueCouponToMemberPort.saveMemberCouponIssue(couponIssue);
+        MemberCouponIssue memberCouponIssue = MemberCouponIssue.forIssue(memberId, couponId);
+        issueCouponToMemberPort.saveMemberCouponIssue(memberCouponIssue);
 
         return coupon;
     }

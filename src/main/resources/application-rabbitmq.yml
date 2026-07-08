@@ -1,0 +1,6 @@
+app:
+  rabbitmq:
+    coupon:
+      exchange: coupon.exchange
+      queue: coupon.queue
+      routing-key: coupon.key

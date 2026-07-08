@@ -35,11 +35,14 @@ public class MemberCouponIssue {
 
     private Instant usedAt;
 
-    public MemberCouponIssue(Long memberId, Long couponId) {
-        this.memberId = memberId;
-        this.couponId = couponId;
-        this.issuedAt = Instant.now();
+    public static MemberCouponIssue forIssue(Long memberId, Long couponId) {
+        return MemberCouponIssue.builder()
+                .memberId(memberId)
+                .couponId(couponId)
+                .issuedAt(Instant.now())
+                .build();
     }
+
     // 사용 체크
     public void checkUsed () {
         if (Boolean.TRUE.equals(this.used)) {
