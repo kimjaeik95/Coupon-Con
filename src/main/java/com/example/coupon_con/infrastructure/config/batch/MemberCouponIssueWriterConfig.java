@@ -2,7 +2,7 @@ package com.example.coupon_con.infrastructure.config.batch;
 
 import com.example.coupon_con.infrastructure.batch.writer.BatchInsertWriter;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,10 +21,10 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class MemberCouponIssueWriterConfig {
 
-    private final SqlSession sqlSession;
+    private final SqlSessionTemplate sqlSessionTemplate;
     @Bean
     public BatchInsertWriter batchInsertWriter() {
-        return new BatchInsertWriter(sqlSession);
+        return new BatchInsertWriter(sqlSessionTemplate);
     }
 }
 

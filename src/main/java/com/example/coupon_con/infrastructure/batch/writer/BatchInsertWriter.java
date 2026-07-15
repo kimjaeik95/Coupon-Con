@@ -2,7 +2,7 @@ package com.example.coupon_con.infrastructure.batch.writer;
 
 import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberCouponIssueMybatisEntity;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 
@@ -19,11 +19,12 @@ import org.springframework.batch.item.ItemWriter;
  */
 @RequiredArgsConstructor
 public class BatchInsertWriter implements ItemWriter<MemberCouponIssueMybatisEntity> {
-    private final SqlSession session;
+    private final SqlSessionTemplate sqlSessionTemplate;
+
 
     @Override
     public void write(Chunk<? extends MemberCouponIssueMybatisEntity> chunk) throws Exception {
-        session.insert(
+        sqlSessionTemplate.insert(
                 "com.example.coupon_con.infrastructure.adapter.out.persistence.mapper.MemberCouponIssueMapper.batchInsertMemberCouponIssue",
                 chunk.getItems() // Chunk 내부에서 List 추출
         );

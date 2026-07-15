@@ -5,9 +5,7 @@ import com.example.coupon_con.infrastructure.adapter.out.persistence.entity.Memb
 
 import com.example.coupon_con.infrastructure.batch.processor.MemberCouponIssueProcessor;
 import com.example.coupon_con.infrastructure.batch.writer.BatchInsertWriter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.mybatis.spring.batch.MyBatisBatchItemWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
@@ -16,9 +14,13 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemStreamReader;
+import org.springframework.batch.item.support.SynchronizedItemStreamReader;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 /**
@@ -41,7 +43,10 @@ public class MemberCouponIssueJob {
     private final BatchInsertWriter writer;
     private final MemberCouponIssueProcessor processor;
 
-    public MemberCouponIssueJob(JobRepository jobRepository, @Qualifier("metaTransactionManager") PlatformTransactionManager metaTransactionManager, ItemReader<MemberMybatisEntity> reader, BatchInsertWriter writer, MemberCouponIssueProcessor processor) {
+    public MemberCouponIssueJob(JobRepository jobRepository,
+                                @Qualifier("metaTransactionManager") PlatformTransactionManager metaTransactionManager,
+                                @Qualifier("memberReader") ItemReader<MemberMybatisEntity> reader, BatchInsertWriter writer,
+                                MemberCouponIssueProcessor processor) {
         this.jobRepository = jobRepository;
         this.metaTransactionManager = metaTransactionManager;
         this.reader = reader;
@@ -72,15 +77,35 @@ public class MemberCouponIssueJob {
                 .start(memberCouponIssueStep())
                 .build();
     }
+    // MemberReader 동시성 래퍼 빈
+    @Bean
+    public SynchronizedItemStreamReader<MemberMybatisEntity> synchronizedReader() {
+        SynchronizedItemStreamReader<MemberMybatisEntity> synchronizedReader =
+                new SynchronizedItemStreamReader<>();
+
+        synchronizedReader.setDelegate((ItemStreamReader<MemberMybatisEntity>) reader); // MemberReader를 delegate로
+        return synchronizedReader;
+    }
 
     @Bean
     public Step memberCouponIssueStep() {
         return new StepBuilder("memberCouponIssueStep", jobRepository)
                 // chunk 기반 한 번에 처리할 데이터 수, 트랜잭션 관리 매니져 (commit/rollback) 설정
                 .<MemberMybatisEntity, MemberCouponIssueMybatisEntity> chunk(2000, metaTransactionManager)
-                .reader(reader)
+                .reader(synchronizedReader())
                 .processor(processor)
                 .writer(writer)
+                .taskExecutor(taskExecutor())
                 .build();
+    }
+
+    @Bean
+    public TaskExecutor taskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(4);
+        executor.setMaxPoolSize(4);
+        executor.setThreadNamePrefix("coupon-issue-");
+        executor.initialize();
+        return executor;
     }
 }
