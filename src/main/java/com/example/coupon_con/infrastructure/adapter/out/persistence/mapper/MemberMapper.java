@@ -24,6 +24,17 @@ public interface MemberMapper {
     List<MemberMybatisEntity> findAll();
 
     List<MemberMybatisEntity> findAllPaged(@Param("lastId") Long lastId,
-                                      @Param("pageSize") int pageSize,
-                                           @Param("couponId")Long couponId);
+                                           @Param("pageSize") int pageSize,
+                                           @Param("couponId") Long couponId);
+
+    Long findMinId();
+
+    Long findMaxId();
+
+    List<MemberMybatisEntity> findAllPagedInRange(
+            @Param("lastId") long lastId,
+            @Param("maxId") long maxId,
+            @Param("pageSize") int pageSize,
+            @Param("couponId") long couponId
+    );
 }

@@ -38,6 +38,12 @@ public class MemberReader implements ItemStreamReader<MemberMybatisEntity> {
     @Value("#{jobParameters['couponId']}")
     private long couponId;
 
+    @Value("#{stepExecutionContext['minId']}")
+    private long minId;
+
+    @Value("#{stepExecutionContext['maxId']}")
+    private long maxId;
+
     private static final String LAST_ID_KEY = "lastId";
 
     private long lastId = 0L;
@@ -47,10 +53,13 @@ public class MemberReader implements ItemStreamReader<MemberMybatisEntity> {
     private List<MemberMybatisEntity> buffer = new ArrayList<>();
 
     @Override
-    @Transactional(propagation = Propagation.NOT_SUPPORTED) // 트랜잭션 없이
+    @Transactional(propagation =  Propagation.NOT_SUPPORTED) // // 상위 클래스에 트랜잭션 있어도 트랜잭션 실행 X
     public MemberMybatisEntity read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         if (index >= buffer.size()) {
-            buffer = memberMapper.findAllPaged(lastId, pageSize, couponId);
+            if (lastId >= maxId) {
+                return null; // 파티션 구간 다 읽음
+            }
+            buffer = memberMapper.findAllPagedInRange(lastId, maxId, pageSize, couponId);
             index = 0;
             if (buffer.isEmpty()) {
                 return null;
@@ -63,9 +72,8 @@ public class MemberReader implements ItemStreamReader<MemberMybatisEntity> {
     // restart 마지막 id 저장
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
-        if (executionContext.containsKey(LAST_ID_KEY)) {
-            this.lastId = executionContext.getLong(LAST_ID_KEY);
-        }
+        this.lastId = executionContext.containsKey(LAST_ID_KEY)
+                ? executionContext.getLong(LAST_ID_KEY) : minId - 1;
     }
 
     @Override

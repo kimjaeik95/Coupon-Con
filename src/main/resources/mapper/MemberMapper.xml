@@ -24,6 +24,28 @@
         LIMIT #{pageSize}
     </select>
 
+    <!-- 파티션 경계 계산용: 전체 member 대상 min/max -->
+    <select id="findMinId" resultType="Long">
+        SELECT MIN(member_id) FROM member
+    </select>
+
+    <select id="findMaxId" resultType="Long">
+        SELECT MAX(member_id) FROM member
+    </select>
+
+    <!-- 파티션 구간(minId~maxId) 안에서만 keyset 순회 -->
+    <select id="findAllPagedInRange" resultType="com.example.coupon_con.infrastructure.adapter.out.persistence.entity.MemberMybatisEntity">
+        SELECT m.*
+        FROM member m
+                 LEFT JOIN member_coupon_issue i
+                           ON m.member_id = i.member_id
+                               AND i.coupon_id = #{couponId}
+        WHERE m.member_id > #{lastId}
+          AND m.member_id &lt;= #{maxId} # 구간 최대 ID
+          AND i.member_id IS NULL # 쿠폰 발급 안한 사람만
+        ORDER BY m.member_id ASC
+        LIMIT #{pageSize}
+    </select>
 
 
 </mapper>
