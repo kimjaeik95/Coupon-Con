@@ -62,6 +62,7 @@ logging:
   level:
     com.example.coupon_con.infrastructure.adapter.out.persistence.mapper: DEBUG
     org.apache.ibatis: DEBUG
+   # org.springframework.batch: DEBUG
     java.sql: DEBUG
     jdbc: DEBUG
 
