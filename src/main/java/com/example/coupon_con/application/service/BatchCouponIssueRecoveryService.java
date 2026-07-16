@@ -54,7 +54,7 @@ public class BatchCouponIssueRecoveryService {
                     "재실행 불가: 비정상 종료된 것으로 의심되는 execution 존재 (수동 확인 필요) - "
                             + zombieIds);
             // 여기서 자동으로 강제 FAILED 처리하지 않는 걸 권장.
-            // 진짜 다른 인스턴스에서 아직 돌고 있는 정상 케이스일 수도 있기 때문.
+            //진짜 다른 인스턴스에서 아직 돌고 있는 정상 케이스일 수도 있기 때문.
         }
 
         jobOperator.restart(jobExecutionId);
